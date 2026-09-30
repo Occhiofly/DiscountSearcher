@@ -1,5 +1,7 @@
 # Discount Searcher
 
+🇬🇧 [English version](README.en.md) — a shorter page for who arrives from outside.
+
 **Le offerte sui videogiochi di quattro negozi, in un'unica finestra.** Applicazione gratuita
 per Windows: niente pubblicità, niente tracciamenti, niente dati venduti.
 
