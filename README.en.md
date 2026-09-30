@@ -158,17 +158,22 @@ Requirements: Python 3.10+.
 To build the standalone `.exe`, run `python build_app.py` (Nuitka; see the Italian
 documentation for the details and for what to check before publishing a build).
 
+## Team procedures
+
+How the project is run day to day — support tickets and the staff area, publishing a new
+version, maintenance mode — is written up separately, in English as well:
+**[DOCUMENTAZIONE-TEAM.en.md](DOCUMENTAZIONE-TEAM.en.md)**
+([italiano](DOCUMENTAZIONE-TEAM.md)).
+
 ## What the Italian documentation covers
 
 The [Italian README](README.md) is the documentation the team works from. If you read Italian,
 or do not mind a machine translation, it also explains:
 
 - [why the project was created and how it was built](README.md#perch%C3%A9-%C3%A8-stato-creato)
-- [the support tickets and the staff area](README.md#ticket-di-assistenza)
 - [how the window scales and resizes](README.md#la-finestra-dellapp)
 - [how Italian and English are handled](README.md#italiano-e-inglese)
-- [the new-version notice](README.md#avviso-di-versione-nuova)
-- [maintenance mode, used while updating the server](README.md#aggiornamenti-la-modalit%C3%A0-manutenzione)
+- [the anti-abuse limits](README.md#limiti-anti-abuso)
 - [the project layout, file by file](README.md#struttura-del-progetto)
 - [how the executable is built](README.md#creare-leseguibile-exe)
 
