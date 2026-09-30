@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+build/
+build_nuitka/
+dist/
+data/
+# Eccezione: i contenuti del sito (menu, team, FAQ, assistenza) vivono in
+# web/assets/js/data/ e devono essere nel repository, altrimenti il sito
+# pubblicato non trova i file e non funziona.
+!web/assets/js/data/
+#Lo zip dell'applicazione non sta nel repository: si pubblica come GitHub Release
+#(vedi "Creare l'eseguibile"). Committarlo faceva crescere la storia di 23 MB a versione.
+web/downloads/*.zip
+
+#Appunti interni del team (vault Obsidian): non fanno parte del prodotto
+DiscountSearcher Obsidian/
+
+session.json
+*.spec
+email_config.py
+.env
+venv/
+.venv/
+env/
+
+#Cartella creata dalla Netlify CLI: contiene solo l'identificativo del sito,
+#serve in locale e non va nel repository.
+.netlify/

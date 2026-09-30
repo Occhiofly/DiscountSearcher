@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — Help centre — Discount Searcher</title>
+  <meta name="description" content="Sign in to the Discount Searcher help centre with your app account.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <script type="module" src="/assets/js/pages/login.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#content">Skip to content</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="content" class="ds-section ds-section--tight">
+    <div class="ds-container">
+      <nav aria-label="Breadcrumb" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="support.html">Help centre</a></li>
+          <li><span aria-current="page">Sign in</span></li>
+        </ol>
+      </nav>
+
+      <div class="ds-auth ds-stack ds-stack--5" data-login-view>
+        <header class="ds-stack ds-stack--3" style="text-align:center;align-items:center">
+          <span class="ds-icon-box ds-icon-box--lg" data-icon="key"></span>
+          <h1 style="font-size:var(--ds-fs-h2)">Sign in</h1>
+          <p class="ds-muted">Use the same username and password as the Discount Searcher app. Then, for your security, we email you a code.</p>
+        </header>
+
+        <form class="ds-panel ds-form" id="login-form" novalidate>
+          <div class="ds-field">
+            <label class="ds-label" for="f-username">Username</label>
+            <input class="ds-input" id="f-username" name="username" type="text"
+                   autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label" for="f-password">Password</label>
+            <div class="ds-password">
+              <input class="ds-input" id="f-password" name="password" type="password"
+                     autocomplete="current-password" required>
+              <button class="ds-password__toggle" type="button" data-toggle-password
+                      aria-controls="f-password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <div class="ds-notice ds-notice--warn" id="login-error" role="alert" hidden>
+            <span class="ds-notice__icon" data-icon="alert" data-icon-size="17"></span>
+            <p data-msg></p>
+          </div>
+
+          <p class="ds-hint" id="login-slow" role="status" hidden>
+            The server is starting up after a quiet period: it can take up to a minute.
+          </p>
+
+          <button class="ds-btn ds-btn--primary ds-btn--block" type="submit">
+            <span>Sign in</span>
+          </button>
+        </form>
+
+        <div class="ds-panel ds-stack ds-stack--3">
+          <p class="ds-card__text">
+            <strong>No account yet?</strong> <a href="register.html">Create one here</a>: you need a
+            @gmail.com address and verification with the 6-digit code. The same account also works
+            in the app.
+          </p>
+          <p class="ds-card__text">
+            <strong>Forgot your password?</strong> You can reset it from the sign-in screen of
+            the app. <a href="support-category.html?c=recupero-password">How to do it</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

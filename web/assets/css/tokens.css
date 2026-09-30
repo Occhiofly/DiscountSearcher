@@ -1,0 +1,126 @@
+/* =========================================================================
+   Discount Searcher — Design tokens
+   -------------------------------------------------------------------------
+   Unica fonte di verità per colori, tipografia, spaziature e raggi.
+   Nessun valore "magico" deve comparire negli altri fogli di stile: se
+   serve un colore o una misura nuova, va aggiunta qui.
+
+   L'accento (--ds-accent) deriva dal colore realmente usato dall'app
+   desktop (#5B5EA6, vedi main.py): è schiarito quel tanto che basta per
+   restare leggibile sul fondo scuro del sito.
+   ========================================================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* ---- Fondali e superfici ---------------------------------------- */
+  --ds-bg:            #0b0b0f;   /* fondo pagina */
+  --ds-bg-soft:       #0f0f15;   /* fasce alternate */
+  --ds-surface:       #131319;   /* card */
+  --ds-surface-2:     #191921;   /* card sollevata / hover */
+  --ds-surface-3:     #20202a;   /* input, chip */
+  --ds-app-bg:        #1e1e1e;   /* fondo reale dell'app desktop */
+  --ds-app-panel:     #2b2b2b;   /* pannelli reali dell'app desktop */
+
+  /* ---- Linee -------------------------------------------------------- */
+  --ds-line:          rgba(255, 255, 255, 0.09);
+  --ds-line-strong:   rgba(255, 255, 255, 0.16);
+  --ds-line-accent:   rgba(124, 128, 216, 0.38);
+
+  /* ---- Testo -------------------------------------------------------- */
+  --ds-text:          #ececf2;
+  --ds-text-muted:    #a3a3b4;
+  --ds-text-faint:    #70707f;
+
+  /* ---- Accento ------------------------------------------------------ */
+  --ds-accent:        #6e72c4;   /* superfici, bordi, riempimenti */
+  --ds-accent-hover:  #7e82d4;
+  --ds-accent-text:   #a8abee;   /* testo/link su fondo scuro (contrasto alto) */
+  --ds-accent-deep:   #5b5ea6;   /* colore originale dell'app desktop */
+  --ds-accent-soft:   rgba(110, 114, 196, 0.14);
+  --ds-accent-softer: rgba(110, 114, 196, 0.07);
+  --ds-on-accent:     #ffffff;
+
+  /* ---- Stati semantici ---------------------------------------------- */
+  --ds-ok:            #4cc38a;
+  --ds-ok-soft:       rgba(76, 195, 138, 0.13);
+  --ds-warn:          #e0a742;
+  --ds-warn-soft:     rgba(224, 167, 66, 0.13);
+  --ds-info:          #5aa9e6;
+  --ds-info-soft:     rgba(90, 169, 230, 0.13);
+  --ds-danger:        #e56a67;
+  --ds-danger-soft:   rgba(229, 106, 103, 0.13);
+  --ds-neutral:       #8b8b9c;
+  --ds-neutral-soft:  rgba(139, 139, 156, 0.13);
+
+  /* ---- Tipografia ---------------------------------------------------- */
+  --ds-font-display: "Space Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ds-font-body:    "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --ds-font-mono:    "JetBrains Mono", "Cascadia Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  /* Scala fluida: il valore si adatta alla larghezza senza media query */
+  --ds-fs-display: clamp(2.5rem, 1.4rem + 3.4vw, 4.1rem);
+  --ds-fs-h1:      clamp(2.1rem, 1.3rem + 2.9vw, 3.4rem);
+  --ds-fs-h2:      clamp(1.7rem, 1.2rem + 1.9vw, 2.5rem);
+  --ds-fs-h3:      clamp(1.25rem, 1.05rem + 0.7vw, 1.5rem);
+  --ds-fs-lead:    clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem);
+  --ds-fs-body:    1rem;
+  --ds-fs-sm:      0.9rem;
+  --ds-fs-xs:      0.8rem;
+  --ds-fs-micro:   0.71rem;
+
+  /* ---- Spaziature: griglia da 8px ------------------------------------ */
+  --ds-1:  4px;
+  --ds-2:  8px;
+  --ds-3:  12px;
+  --ds-4:  16px;
+  --ds-5:  24px;
+  --ds-6:  32px;
+  --ds-7:  48px;
+  --ds-8:  64px;
+  --ds-9:  96px;
+  --ds-10: 128px;
+
+  /* Spazio verticale di sezione, ridotto in automatico sui piccoli schermi */
+  --ds-section-y: clamp(64px, 8vw, 128px);
+
+  /* ---- Raggi ---------------------------------------------------------- */
+  --ds-r-sm:   6px;
+  --ds-r-md:   10px;
+  --ds-r-lg:   16px;
+  --ds-r-xl:   22px;
+  --ds-r-full: 999px;
+
+  /* ---- Ombre: usate con parsimonia, solo dove c'è vera elevazione ----- */
+  --ds-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ds-shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  --ds-shadow-lg: 0 32px 64px -24px rgba(0, 0, 0, 0.75);
+
+  /* ---- Layout --------------------------------------------------------- */
+  --ds-container:      1200px;
+  --ds-container-wide: 1400px;
+  --ds-container-text: 760px;
+  --ds-gutter:         clamp(20px, 4vw, 40px);
+  --ds-header-h:       68px;
+
+  /* ---- Movimento ------------------------------------------------------ */
+  --ds-ease:      cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ds-ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ds-t-fast:    120ms;
+  --ds-t-base:    220ms;
+  --ds-t-slow:    420ms;
+
+  --ds-z-header: 100;
+  --ds-z-menu:   200;
+  --ds-z-toast:  300;
+}
+
+/* Chi ha chiesto meno animazioni al sistema operativo non le riceve:
+   azzeriamo le durate invece di disattivare le transizioni una per una. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-t-fast: 0.01ms;
+    --ds-t-base: 0.01ms;
+    --ds-t-slow: 0.01ms;
+  }
+}

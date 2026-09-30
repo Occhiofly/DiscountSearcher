@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pagine pubbliche del sito, per i motori di ricerca.
+  Le pagine dei ticket e della candidatura non sono incluse: hanno noindex e contengono
+  dati personali.
+  Aggiungendo una categoria in assets/js/data/it/support.js (e in data/en/support.js),
+  aggiungi qui la sua riga nelle due lingue.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://discountsearcher.it/</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/privacy</loc><lastmod>2026-09-19</lastmod></url>
+  <url><loc>https://discountsearcher.it/sostieni</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/lavora-con-noi</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/faq</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=account</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=accesso</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=recupero-password</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=verifica-email</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=applicazione</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=offerte</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=filtri</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=cronologia</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=bug</loc><lastmod>2026-09-16</lastmod></url>
+  <url><loc>https://discountsearcher.it/assistenza-categoria?c=altro</loc><lastmod>2026-09-16</lastmod></url>
+  <!-- Versione inglese: stesse pagine sotto /en/ (nomi di file inglesi). -->
+  <url><loc>https://discountsearcher.it/en/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/privacy</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-us</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/jobs</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/faq</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=account</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=accesso</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=recupero-password</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=verifica-email</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=applicazione</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=offerte</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=filtri</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=cronologia</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=bug</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/support-category?c=altro</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://discountsearcher.it/registrati</loc><lastmod>2026-09-25</lastmod></url>
+  <url><loc>https://discountsearcher.it/en/register</loc><lastmod>2026-09-25</lastmod></url>
+</urlset>

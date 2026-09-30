@@ -1,0 +1,1030 @@
+/* =========================================================================
+   Discount Searcher — Stili delle sezioni e delle pagine
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   Hero
+   ------------------------------------------------------------------------- */
+
+.ds-hero {
+  position: relative;
+  padding-block: clamp(56px, 7vw, 104px) clamp(64px, 8vw, 120px);
+  overflow: hidden;
+}
+
+/* Griglia tecnica di sfondo: molto tenue, sfuma verso il basso.
+   Due gradienti ripetuti al posto di un'immagine, così non pesa nulla. */
+.ds-hero::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 620px;
+  background-image:
+    linear-gradient(to right, var(--ds-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ds-line) 1px, transparent 1px);
+  background-size: 68px 68px;
+  /* La maschera fa svanire la griglia verso il basso e verso i lati */
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 12%, transparent 72%);
+  mask-image: radial-gradient(120% 80% at 50% 0%, #000 12%, transparent 72%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.ds-hero__inner {
+  position: relative;
+  display: grid;
+  gap: clamp(40px, 5vw, 72px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+@media (min-width: 1080px) {
+  .ds-hero__inner {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+.ds-hero__copy { display: flex; flex-direction: column; gap: var(--ds-5); }
+
+.ds-hero__title {
+  font-size: var(--ds-fs-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+/* La seconda riga del titolo porta l'accento: un solo punto di colore,
+   invece di un gradiente su tutto il testo. */
+.ds-hero__title em {
+  font-style: normal;
+  color: var(--ds-accent-text);
+}
+
+.ds-hero__actions { display: flex; flex-wrap: wrap; gap: var(--ds-3); }
+
+.ds-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-2) var(--ds-5);
+  padding-top: var(--ds-5);
+  border-top: 1px solid var(--ds-line);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-xs);
+  color: var(--ds-text-faint);
+}
+.ds-hero__fact { display: inline-flex; align-items: center; gap: var(--ds-2); }
+.ds-hero__fact svg { width: 15px; height: 15px; color: var(--ds-accent-text); }
+
+/* -------------------------------------------------------------------------
+   Ricostruzione dell'interfaccia dell'applicazione
+   Non è uno screenshot: è l'interfaccia ridisegnata in HTML/CSS a partire
+   dal codice reale (main.py), con gli stessi colori, etichette e struttura.
+   ------------------------------------------------------------------------- */
+
+.ds-appframe { position: relative; }
+
+.ds-window {
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-r-lg);
+  background: var(--ds-app-bg);
+  box-shadow: var(--ds-shadow-lg);
+  overflow: hidden;
+}
+
+/* Barra del titolo in stile finestra di Windows */
+.ds-window__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-3);
+  padding: 0 var(--ds-2) 0 var(--ds-4);
+  height: 38px;
+  background: #171717;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.ds-window__title {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-2);
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: var(--ds-fs-xs);
+  color: var(--ds-text-muted);
+}
+.ds-window__title svg { width: 14px; height: 14px; color: var(--ds-accent-text); }
+
+.ds-window__controls { display: flex; margin-left: auto; }
+.ds-window__controls span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 38px;
+  color: var(--ds-text-faint);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.ds-window__body {
+  display: grid;
+  grid-template-columns: 20% 1fr; /* le stesse proporzioni dell'app reale */
+  min-height: 430px;
+}
+
+/* --- Barra laterale: cronologia --- */
+.ds-app-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-3);
+  padding: var(--ds-4) var(--ds-3);
+  background: var(--ds-app-panel);
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+  min-width: 0;
+}
+.ds-app-side__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+}
+.ds-app-side__list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-2);
+  padding: var(--ds-2);
+  background: var(--ds-app-bg);
+  border-radius: var(--ds-r-sm);
+  overflow: hidden;
+}
+.ds-app-side__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ds-2);
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: #d6d6d6;
+}
+.ds-app-side__item span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ds-app-side__item span:last-child { color: var(--ds-accent-deep); flex: none; }
+
+.ds-app-side__user {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+}
+.ds-app-side__logout { text-align: center; font-size: 0.58rem; color: #8a8a8a; }
+
+/* --- Area principale --- */
+.ds-app-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-4);
+  padding: var(--ds-4);
+  min-width: 0;
+}
+
+.ds-app-searchrow { display: flex; align-items: center; gap: var(--ds-3); }
+
+.ds-app-btn {
+  flex: none;
+  padding: 5px 16px;
+  border-radius: var(--ds-r-sm);
+  background: #4a4d8f;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.ds-app-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 10px;
+  border: 1px solid #3d3d3d;
+  border-radius: var(--ds-r-sm);
+  background: #343434;
+  color: #ededed;
+  font-size: 0.68rem;
+}
+.ds-app-input--placeholder { color: #8a8a8a; }
+
+.ds-app-filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ds-3);
+}
+.ds-app-filter { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+.ds-app-filter__label { font-size: 0.62rem; color: #fff; }
+.ds-app-filter__value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-2);
+  width: 100%;
+  padding: 4px 10px;
+  border-radius: var(--ds-r-sm);
+  background: #4a4d8f;
+  color: #fff;
+  font-size: 0.66rem;
+  transition: background-color var(--ds-t-base) var(--ds-ease);
+}
+.ds-app-filter__value::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-right: 1.4px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1.4px solid rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px) rotate(45deg);
+  flex: none;
+}
+/* Il filtro che lo "step" corrente sta cambiando viene evidenziato */
+.ds-app-filter.is-active .ds-app-filter__value {
+  background: var(--ds-accent-hover);
+  box-shadow: 0 0 0 2px rgba(168, 171, 238, 0.35);
+}
+
+.ds-app-status {
+  min-height: 14px;
+  text-align: center;
+  font-size: 0.63rem;
+  color: #9a9a9a;
+}
+
+.ds-app-results {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--ds-2);
+  background: #262626;
+  border-radius: var(--ds-r-sm);
+  min-height: 150px;
+}
+
+.ds-app-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-3);
+  padding: 7px 10px;
+  background: var(--ds-app-panel);
+  border-radius: var(--ds-r-sm);
+  font-size: 0.67rem;
+  color: #ededed;
+  animation: ds-row-in var(--ds-t-base) var(--ds-ease-out) both;
+}
+.ds-app-row__title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-app-row__price { color: #ededed; font-variant-numeric: tabular-nums; flex: none; }
+.ds-app-row__cut { color: var(--ds-ok); }
+.ds-app-row__link { color: var(--ds-accent-deep); flex: none; }
+.ds-app-row.is-highlight {
+  outline: 1px solid var(--ds-accent);
+  background: #33334a;
+}
+
+@keyframes ds-row-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-app-row { animation: none; }
+}
+
+.ds-app-empty { padding: var(--ds-6) 0; text-align: center; font-size: 0.66rem; color: #8a8a8a; }
+.ds-app-credit { text-align: center; font-size: 0.58rem; color: #5b5ea6; }
+
+/* Etichetta di onestà sotto la finestra */
+.ds-appframe__note {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-2);
+  margin-top: var(--ds-3);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--ds-text-faint);
+}
+.ds-appframe__note svg { width: 13px; height: 13px; flex: none; }
+
+/* Sotto i 520px la finestra diventa illeggibile a due colonne:
+   la barra laterale passa sopra come striscia orizzontale. */
+@media (max-width: 560px) {
+  .ds-window__body { grid-template-columns: 1fr; min-height: 0; }
+  .ds-app-side { border-right: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.4); }
+  .ds-app-side__list { flex-direction: row; overflow-x: auto; }
+  .ds-app-side__item { flex: none; min-width: 120px; }
+  .ds-app-side__user, .ds-app-side__logout { display: none; }
+  .ds-app-filters { grid-template-columns: 1fr; }
+  .ds-app-searchrow { flex-wrap: wrap; }
+}
+
+/* -------------------------------------------------------------------------
+   Vetrina del prodotto: passi che comandano la finestra
+   ------------------------------------------------------------------------- */
+
+.ds-showcase {
+  display: grid;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: start;
+}
+@media (min-width: 1080px) {
+  .ds-showcase { grid-template-columns: minmax(300px, 0.75fr) minmax(0, 1.25fr); }
+}
+
+.ds-steps { display: flex; flex-direction: column; }
+
+.ds-step {
+  position: relative;
+  display: flex;
+  gap: var(--ds-4);
+  width: 100%;
+  padding: var(--ds-4) var(--ds-4) var(--ds-4) var(--ds-3);
+  text-align: left;
+  border-left: 2px solid var(--ds-line);
+  color: var(--ds-text-muted);
+  transition: border-color var(--ds-t-base) var(--ds-ease),
+              background-color var(--ds-t-base) var(--ds-ease);
+}
+.ds-step:hover { background: var(--ds-surface); }
+.ds-step[aria-selected="true"] {
+  border-left-color: var(--ds-accent);
+  background: var(--ds-surface);
+}
+
+.ds-step__num {
+  flex: none;
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-xs);
+  color: var(--ds-text-faint);
+  padding-top: 2px;
+}
+.ds-step[aria-selected="true"] .ds-step__num { color: var(--ds-accent-text); }
+
+.ds-step__title,
+.ds-step__text { display: block; }
+
+.ds-step__title {
+  font-family: var(--ds-font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--ds-text);
+  margin-bottom: 2px;
+}
+.ds-step__text { font-size: var(--ds-fs-sm); line-height: 1.55; }
+
+/* Didascalia del passo attivo: serve solo quando i passi diventano schede
+   compatte (schermi stretti), dove il testo descrittivo è nascosto. */
+.ds-step-caption { display: none; }
+
+/* Sotto i 1080px i passi diventano schede compatte: quattro in fila sul
+   tablet, una griglia 2×2 sul telefono — tutte sempre visibili, senza
+   scorrimento orizzontale che nasconderebbe la scheda selezionata. */
+@media (max-width: 1079px) {
+  .ds-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--ds-2);
+  }
+  .ds-step {
+    align-items: baseline;
+    gap: var(--ds-2);
+    padding: var(--ds-3) var(--ds-4);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+  }
+  .ds-step[aria-selected="true"] {
+    border-color: var(--ds-line-accent);
+    background: var(--ds-accent-soft);
+  }
+  .ds-step__text { display: none; }
+  .ds-step__title { margin: 0; }
+
+  .ds-step-caption {
+    display: block;
+    min-height: 3.2em;
+    font-size: var(--ds-fs-sm);
+    color: var(--ds-text-muted);
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 599px) {
+  .ds-steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* -------------------------------------------------------------------------
+   Funzioni
+   ------------------------------------------------------------------------- */
+
+.ds-feature { gap: var(--ds-4); }
+.ds-feature__head { display: flex; align-items: center; gap: var(--ds-3); }
+.ds-feature__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-2);
+  margin-top: auto;
+  padding-top: var(--ds-4);
+  border-top: 1px solid var(--ds-line);
+}
+.ds-feature__li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-2);
+  font-size: var(--ds-fs-xs);
+  color: var(--ds-text-muted);
+}
+.ds-feature__li svg { flex: none; width: 14px; height: 14px; margin-top: 4px; color: var(--ds-accent-text); }
+
+/* La prima card occupa due colonne dove c'è spazio: dà un ritmo alla griglia
+   invece di allineare card tutte identiche. */
+@media (min-width: 900px) {
+  .ds-feature--wide { grid-column: span 2; }
+}
+
+/* -------------------------------------------------------------------------
+   Come funziona
+   ------------------------------------------------------------------------- */
+
+.ds-flow {
+  display: grid;
+  gap: var(--ds-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  counter-reset: flow;
+}
+
+.ds-flow__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-3);
+  padding: var(--ds-5) var(--ds-4);
+  border-top: 2px solid var(--ds-line);
+}
+.ds-flow__item:first-child { border-top-color: var(--ds-accent); }
+
+.ds-flow__num {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.14em;
+  color: var(--ds-accent-text);
+}
+.ds-flow__title { font-size: 1.05rem; }
+.ds-flow__text { font-size: var(--ds-fs-sm); color: var(--ds-text-muted); line-height: 1.6; }
+
+/* -------------------------------------------------------------------------
+   Negozi supportati
+   ------------------------------------------------------------------------- */
+
+.ds-store {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-4);
+  padding: var(--ds-5);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-lg);
+}
+
+/* Tessera con il logo del negozio, in versione monocromatica chiara: tutti e
+   quattro i marchi prevedono una variante a un colore, e usarla tiene la
+   sezione coerente con la palette del sito invece di accostare quattro
+   colori di brand diversi. I marchi restano dei rispettivi proprietari
+   (vedi le note legali nel footer). */
+.ds-store__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-r-md);
+  background: var(--ds-surface-3);
+  transition: border-color var(--ds-t-base) var(--ds-ease);
+}
+.ds-store__logo img { width: 24px; height: 24px; }
+.ds-store:hover .ds-store__logo { border-color: var(--ds-line-accent); }
+
+.ds-store__name { font-family: var(--ds-font-display); font-weight: 600; }
+.ds-store__meta { font-family: var(--ds-font-mono); font-size: var(--ds-fs-micro); color: var(--ds-text-faint); }
+
+/* -------------------------------------------------------------------------
+   Account e sicurezza
+   ------------------------------------------------------------------------- */
+
+.ds-split {
+  display: grid;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+}
+@media (min-width: 980px) {
+  .ds-split { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  .ds-split--sticky > :first-child { position: sticky; top: calc(var(--ds-header-h) + var(--ds-6)); }
+}
+
+.ds-seclist { display: flex; flex-direction: column; }
+.ds-secitem {
+  display: flex;
+  gap: var(--ds-4);
+  padding: var(--ds-5) 0;
+  border-bottom: 1px solid var(--ds-line);
+}
+.ds-secitem:first-child { border-top: 1px solid var(--ds-line); }
+.ds-secitem__title { font-family: var(--ds-font-display); font-weight: 600; font-size: 1rem; margin-bottom: var(--ds-1); }
+.ds-secitem__text { font-size: var(--ds-fs-sm); color: var(--ds-text-muted); line-height: 1.6; }
+
+/* -------------------------------------------------------------------------
+   Team
+   ------------------------------------------------------------------------- */
+
+/* auto-fill (non auto-fit): le colonne vuote restano, così con due persone
+   le card mantengono una larghezza da card invece di allargarsi a metà
+   pagina, e un nuovo membro occupa semplicemente la colonna successiva. */
+.ds-team { display: grid; gap: var(--ds-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+
+.ds-member {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-5);
+  padding: var(--ds-6) var(--ds-5) var(--ds-5);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-lg);
+  transition: border-color var(--ds-t-base) var(--ds-ease);
+}
+.ds-member:hover { border-color: var(--ds-line-accent); }
+
+/* Iniziale al posto della foto: nel progetto non esistono ritratti,
+   e un volto generato sarebbe una persona che non esiste. */
+.ds-member__avatar {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border: 1px solid var(--ds-line-accent);
+  border-radius: var(--ds-r-lg);
+  background: var(--ds-accent-softer);
+  font-family: var(--ds-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ds-accent-text);
+}
+
+.ds-member__name { font-size: 1.25rem; }
+.ds-member__role {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ds-text-faint);
+  margin-top: var(--ds-1);
+}
+.ds-member__scope {
+  padding-top: var(--ds-4);
+  border-top: 1px solid var(--ds-line);
+  font-size: var(--ds-fs-sm);
+  color: var(--ds-text-muted);
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------------
+   Download / chiamata all'azione finale
+   ------------------------------------------------------------------------- */
+
+.ds-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-5);
+  padding: clamp(40px, 5vw, 72px) var(--ds-5);
+  text-align: center;
+  background:
+    radial-gradient(90% 120% at 50% 0%, var(--ds-accent-softer), transparent 70%),
+    var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-xl);
+}
+
+.ds-reqs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ds-2) var(--ds-5);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  color: var(--ds-text-faint);
+}
+
+/* =========================================================================
+   CENTRO ASSISTENZA
+   Stessi token del sito, ma densità e gerarchia da area di lavoro.
+   ========================================================================= */
+
+.ds-sup-hero {
+  position: relative;
+  padding-block: clamp(40px, 5vw, 72px) clamp(40px, 5vw, 64px);
+  border-bottom: 1px solid var(--ds-line);
+  background:
+    radial-gradient(70% 120% at 50% -10%, var(--ds-accent-softer), transparent 70%),
+    var(--ds-bg-soft);
+}
+.ds-sup-hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-5);
+  text-align: center;
+}
+.ds-sup-hero__form { width: min(620px, 100%); }
+
+/* Barra locale di navigazione del Centro assistenza */
+.ds-subnav {
+  position: sticky;
+  top: var(--ds-header-h);
+  z-index: calc(var(--ds-z-header) - 1);
+  background: color-mix(in srgb, var(--ds-bg) 94%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ds-line);
+}
+.ds-subnav__inner {
+  display: flex;
+  gap: var(--ds-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ds-subnav__inner::-webkit-scrollbar { display: none; }
+.ds-subnav__link {
+  position: relative;
+  padding: var(--ds-4) var(--ds-3);
+  white-space: nowrap;
+  color: var(--ds-text-muted);
+  font-size: var(--ds-fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+}
+.ds-subnav__link:hover { color: var(--ds-text); }
+.ds-subnav__link[aria-current="page"] { color: var(--ds-text); }
+.ds-subnav__link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: var(--ds-3);
+  right: var(--ds-3);
+  bottom: -1px;
+  height: 2px;
+  background: var(--ds-accent);
+}
+
+/* Barra: sezioni a sinistra (scorrevoli su mobile), account a destra (fisso) */
+.ds-subnav__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-4);
+}
+.ds-subnav__bar > nav { min-width: 0; flex: 1; }
+
+.ds-subnav__account {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-3);
+  flex: none;
+  font-size: var(--ds-fs-sm);
+}
+.ds-subnav__user {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-2);
+  max-width: 180px;
+  color: var(--ds-text-muted);
+}
+.ds-subnav__user svg { flex: none; color: var(--ds-accent-text); }
+.ds-subnav__user span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Su schermi stretti resta solo il pulsante: il nome dell'utente ruberebbe
+   lo spazio alle sezioni, che sono la parte più importante della barra. */
+@media (max-width: 640px) {
+  .ds-subnav__user { display: none; }
+}
+
+/* Pagina di accesso */
+.ds-auth {
+  width: min(460px, 100%);
+  margin-inline: auto;
+}
+.ds-password {
+  position: relative;
+}
+.ds-password .ds-input { padding-right: 96px; }
+.ds-password__toggle {
+  position: absolute;
+  top: 50%;
+  right: var(--ds-2);
+  transform: translateY(-50%);
+  padding: var(--ds-1) var(--ds-3);
+  border-radius: var(--ds-r-sm);
+  color: var(--ds-text-muted);
+  font-size: var(--ds-fs-xs);
+  font-weight: 600;
+}
+.ds-password__toggle:hover { color: var(--ds-text); background: var(--ds-surface-2); }
+
+/* Risultati della ricerca nell'assistenza */
+.ds-sup-results {
+  position: relative;
+  width: 100%;
+  margin-top: var(--ds-3);
+  text-align: left;
+}
+.ds-sup-results__list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-md);
+  background: var(--ds-surface);
+  overflow: hidden;
+}
+.ds-sup-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-4);
+  padding: var(--ds-3) var(--ds-4);
+  border-bottom: 1px solid var(--ds-line);
+  color: var(--ds-text);
+  font-size: var(--ds-fs-sm);
+  text-decoration: none;
+}
+.ds-sup-result:last-child { border-bottom: 0; }
+.ds-sup-result:hover { background: var(--ds-surface-2); color: var(--ds-text); }
+.ds-sup-result__cat {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  color: var(--ds-text-faint);
+  flex: none;
+}
+
+/* Categoria: articoli */
+.ds-article {
+  padding: var(--ds-6) 0;
+  border-bottom: 1px solid var(--ds-line);
+  scroll-margin-top: calc(var(--ds-header-h) + 80px);
+}
+.ds-article:first-of-type { border-top: 1px solid var(--ds-line); }
+.ds-article__title { font-size: 1.22rem; margin-bottom: var(--ds-4); }
+.ds-article__body { color: var(--ds-text-muted); font-size: var(--ds-fs-sm); line-height: 1.75; max-width: 72ch; }
+.ds-article__body p + p { margin-top: var(--ds-4); }
+/* Titoli dentro un testo lungo (es. privacy.html): più piccoli dei titoli di pagina
+   e staccati dal paragrafo precedente, così le sezioni si distinguono */
+.ds-article__body h2 {
+  margin-top: var(--ds-7);
+  margin-bottom: var(--ds-3);
+  color: var(--ds-text);
+  font-size: var(--ds-fs-h3);
+}
+.ds-article__body h2:first-child { margin-top: 0; }
+.ds-article__body ul + p { margin-top: var(--ds-4); }
+.ds-article__body strong { color: var(--ds-text); font-weight: 600; }
+.ds-article__body code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--ds-surface-3);
+  color: var(--ds-accent-text);
+  font-size: 0.86em;
+}
+.ds-article__body ul { margin-top: var(--ds-4); display: flex; flex-direction: column; gap: var(--ds-2); }
+.ds-article__body li { position: relative; padding-left: var(--ds-4); }
+.ds-article__body li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 6px;
+  height: 1px;
+  background: var(--ds-accent-text);
+}
+
+/* Indice laterale della categoria */
+.ds-toc { display: flex; flex-direction: column; gap: var(--ds-2); }
+.ds-toc__title {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ds-text-faint);
+  margin-bottom: var(--ds-2);
+}
+.ds-toc__link {
+  padding: var(--ds-2) var(--ds-3);
+  border-left: 2px solid var(--ds-line);
+  color: var(--ds-text-muted);
+  font-size: var(--ds-fs-sm);
+  text-decoration: none;
+}
+.ds-toc__link:hover { border-left-color: var(--ds-accent); color: var(--ds-text); background: var(--ds-surface); }
+
+/* =========================================================================
+   TICKET
+   ========================================================================= */
+
+.ds-panel {
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-lg);
+}
+
+.ds-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-3);
+  margin-bottom: var(--ds-5);
+}
+.ds-toolbar__spacer { margin-left: auto; }
+
+/* Filtri di stato come chip selezionabili */
+.ds-chips { display: flex; flex-wrap: wrap; gap: var(--ds-2); }
+.ds-chip {
+  padding: 6px var(--ds-3);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-full);
+  background: var(--ds-surface);
+  color: var(--ds-text-muted);
+  font-size: var(--ds-fs-xs);
+  font-weight: 500;
+  transition: border-color var(--ds-t-fast) var(--ds-ease),
+              color var(--ds-t-fast) var(--ds-ease),
+              background-color var(--ds-t-fast) var(--ds-ease);
+}
+.ds-chip:hover { color: var(--ds-text); border-color: var(--ds-line-strong); }
+.ds-chip[aria-pressed="true"] {
+  background: var(--ds-accent-soft);
+  border-color: var(--ds-line-accent);
+  color: var(--ds-accent-text);
+}
+
+/* Elenco ticket: righe, non tabella — restano leggibili su mobile */
+.ds-tickets { display: flex; flex-direction: column; gap: var(--ds-3); }
+
+.ds-ticket {
+  display: grid;
+  gap: var(--ds-3);
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: var(--ds-4) var(--ds-5);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-md);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--ds-t-base) var(--ds-ease),
+              background-color var(--ds-t-base) var(--ds-ease);
+}
+.ds-ticket:hover { background: var(--ds-surface-2); border-color: var(--ds-line-accent); color: inherit; }
+
+.ds-ticket__main { min-width: 0; display: flex; flex-direction: column; gap: var(--ds-2); }
+.ds-ticket__id {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.08em;
+  color: var(--ds-accent-text);
+}
+.ds-ticket__subject {
+  font-family: var(--ds-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.ds-ticket__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ds-2);
+  text-align: right;
+}
+.ds-ticket__when {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  color: var(--ds-text-faint);
+}
+
+@media (max-width: 640px) {
+  .ds-ticket { grid-template-columns: 1fr; }
+  .ds-ticket__side { align-items: flex-start; text-align: left; flex-direction: row; flex-wrap: wrap; }
+}
+
+/* --- Dettaglio: conversazione --- */
+.ds-thread { display: flex; flex-direction: column; gap: var(--ds-4); }
+
+.ds-msg {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: var(--ds-3);
+}
+.ds-msg__avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-md);
+  background: var(--ds-surface-3);
+  font-family: var(--ds-font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ds-text-muted);
+}
+.ds-msg--staff .ds-msg__avatar {
+  border-color: var(--ds-line-accent);
+  background: var(--ds-accent-soft);
+  color: var(--ds-accent-text);
+}
+
+.ds-msg__bubble {
+  padding: var(--ds-4);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-r-md);
+}
+.ds-msg--staff .ds-msg__bubble {
+  background: var(--ds-accent-softer);
+  border-color: var(--ds-line-accent);
+}
+.ds-msg__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--ds-2) var(--ds-3);
+  margin-bottom: var(--ds-2);
+}
+.ds-msg__author { font-weight: 600; font-size: var(--ds-fs-sm); }
+.ds-msg__role {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ds-accent-text);
+}
+.ds-msg__when { font-family: var(--ds-font-mono); font-size: var(--ds-fs-micro); color: var(--ds-text-faint); margin-left: auto; }
+.ds-msg__body { font-size: var(--ds-fs-sm); line-height: 1.7; color: var(--ds-text-muted); white-space: pre-wrap; }
+
+/* Scheda riassuntiva del ticket, a fianco della conversazione */
+.ds-ticket-meta { display: flex; flex-direction: column; }
+.ds-ticket-meta__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-4);
+  padding: var(--ds-3) 0;
+  border-bottom: 1px solid var(--ds-line);
+  font-size: var(--ds-fs-sm);
+}
+.ds-ticket-meta__row:last-child { border-bottom: 0; }
+.ds-ticket-meta__key { color: var(--ds-text-faint); font-size: var(--ds-fs-xs); }
+.ds-ticket-meta__val { text-align: right; margin-left: auto; max-width: 100%; }
+.ds-ticket-meta__val .ds-badge { white-space: normal; letter-spacing: 0.04em; }
+
+@media (min-width: 980px) {
+  .ds-ticket-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--ds-6);
+    align-items: start;
+  }
+  .ds-ticket-layout__side { position: sticky; top: calc(var(--ds-header-h) + 72px); }
+}
+
+/* Riquadro di risposta */
+.ds-reply { display: flex; flex-direction: column; gap: var(--ds-3); }
+.ds-reply__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-3); }
+
+/* Modulo di apertura ticket */
+.ds-form { display: flex; flex-direction: column; gap: var(--ds-5); }
+.ds-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-3);
+  padding-top: var(--ds-5);
+  border-top: 1px solid var(--ds-line);
+}
+.ds-form__actions .ds-btn--primary { min-width: 190px; }
+
+/* Riepilogo errori mostrato in cima al modulo dopo un invio non valido */
+.ds-form-errors {
+  padding: var(--ds-4);
+  border: 1px solid color-mix(in srgb, var(--ds-danger) 40%, transparent);
+  border-radius: var(--ds-r-md);
+  background: var(--ds-danger-soft);
+}
+.ds-form-errors__title { font-size: var(--ds-fs-sm); font-weight: 600; color: var(--ds-danger); margin-bottom: var(--ds-2); }
+.ds-form-errors a { color: var(--ds-danger); font-size: var(--ds-fs-xs); }
+.ds-form-errors li { font-size: var(--ds-fs-xs); }

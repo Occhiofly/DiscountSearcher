@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discount Searcher — Offerte sui videogiochi da quattro negozi, in un'unica app</title>
+  <meta name="description" content="Applicazione desktop per Windows che cerca le offerte sui videogiochi su Steam, Epic Games Store, GOG e Humble Store, con filtri per negozio, genere, sconto minimo e titolo.">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="canonical" href="https://discountsearcher.it/">
+  <!-- Stessa pagina in inglese: i motori di ricerca mostrano la versione giusta -->
+  <link rel="alternate" hreflang="it" href="https://discountsearcher.it/">
+  <link rel="alternate" hreflang="en" href="https://discountsearcher.it/en/">
+  <link rel="alternate" hreflang="x-default" href="https://discountsearcher.it/">
+
+  <!-- Anteprima quando il link viene condiviso (WhatsApp, Discord, Telegram, social).
+       Gli indirizzi devono essere assoluti: le piattaforme non risolvono quelli relativi. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Discount Searcher">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:url" content="https://discountsearcher.it/">
+  <meta property="og:title" content="Discount Searcher">
+  <meta property="og:description" content="Le offerte sui videogiochi di Steam, Epic Games Store, GOG e Humble Store, in un'unica app per Windows.">
+  <meta property="og:image" content="https://discountsearcher.it/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo di Discount Searcher con il titolo: le offerte sui videogiochi, quattro negozi in un'unica app.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/home.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+
+  <main id="contenuto">
+
+    <!-- ================================================================
+         HERO
+         ================================================================ -->
+    <section class="ds-hero" id="prodotto" aria-labelledby="hero-title">
+      <div class="ds-container ds-container--wide ds-hero__inner">
+        <div class="ds-hero__copy">
+          <span class="ds-eyebrow">Applicazione desktop per Windows</span>
+
+          <h1 class="ds-hero__title" id="hero-title">
+            Le offerte sui videogiochi,
+            <em>quattro negozi in un'unica app.</em>
+          </h1>
+
+          <p class="ds-lead">
+            Discount Searcher mostra le offerte più recenti di Steam, Epic Games Store,
+            GOG e Humble Store e le filtra per genere, sconto minimo e titolo. Scegli
+            il negozio dal menu, senza aprire i loro siti uno per uno.
+          </p>
+
+          <div class="ds-hero__actions">
+            <a class="ds-btn ds-btn--primary ds-btn--lg" href="#download">
+              <span data-icon="download" data-icon-size="18" class="ds-btn__icon"></span>
+              <span>Scarica per Windows</span>
+            </a>
+            <a class="ds-btn ds-btn--secondary ds-btn--lg ds-btn--arrow" href="assistenza.html">
+              <span>Centro assistenza</span>
+              <span data-icon="arrowRight" data-icon-size="18" class="ds-btn__icon"></span>
+            </a>
+          </div>
+
+          <ul class="ds-hero__facts" aria-label="In breve">
+            <li class="ds-hero__fact"><span data-icon="windows" data-icon-size="15"></span>Windows, senza installare Python</li>
+            <li class="ds-hero__fact"><span data-icon="store" data-icon-size="15"></span>4 negozi digitali</li>
+            <li class="ds-hero__fact"><span data-icon="devices" data-icon-size="15"></span>Account su più computer</li>
+          </ul>
+        </div>
+
+        <div data-app-preview="filter" data-reveal></div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         VETRINA
+         ================================================================ -->
+    <section class="ds-section ds-section--ruled" id="vetrina" aria-labelledby="vetrina-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-section-head">
+          <span class="ds-eyebrow">Il prodotto</span>
+          <h2 id="vetrina-title">Dalla ricerca all'offerta, in quattro passi.</h2>
+          <p class="ds-lead">
+            L'applicazione è costruita attorno a una sola schermata: cerchi, filtri,
+            confronti e apri l'offerta nel negozio. Seleziona un passo per vederlo.
+          </p>
+        </div>
+
+        <div class="ds-showcase">
+          <div class="ds-steps" role="tablist" aria-label="Passi dell'utilizzo" aria-orientation="vertical" data-showcase-steps>
+            <button class="ds-step" type="button" role="tab" id="step-search" aria-controls="showcase-panel" aria-selected="true" tabindex="0" data-state="search">
+              <span class="ds-step__num">01</span>
+              <span>
+                <span class="ds-step__title">Cerca</span>
+                <span class="ds-step__text">Scegli un negozio e avvia la ricerca: l'elenco mostra le sue offerte più recenti, con prezzo e percentuale di sconto.</span>
+              </span>
+            </button>
+            <button class="ds-step" type="button" role="tab" id="step-filter" aria-controls="showcase-panel" aria-selected="false" tabindex="-1" data-state="filter">
+              <span class="ds-step__num">02</span>
+              <span>
+                <span class="ds-step__title">Filtra</span>
+                <span class="ds-step__text">Restringi i risultati per genere e sconto minimo, oppure scrivi parte del titolo che stai cercando.</span>
+              </span>
+            </button>
+            <button class="ds-step" type="button" role="tab" id="step-compare" aria-controls="showcase-panel" aria-selected="false" tabindex="-1" data-state="compare">
+              <span class="ds-step__num">03</span>
+              <span>
+                <span class="ds-step__title">Confronta</span>
+                <span class="ds-step__text">Cambia negozio dal menu Store mantenendo gli stessi filtri e confronta le offerte fra un negozio e l'altro.</span>
+              </span>
+            </button>
+            <button class="ds-step" type="button" role="tab" id="step-open" aria-controls="showcase-panel" aria-selected="false" tabindex="-1" data-state="open">
+              <span class="ds-step__num">04</span>
+              <span>
+                <span class="ds-step__title">Apri</span>
+                <span class="ds-step__text">Un clic su Link apre l'offerta nel browser, sul sito del negozio. Il gioco finisce nella tua Cronologia.</span>
+              </span>
+            </button>
+          </div>
+
+          <p class="ds-step-caption" data-step-caption aria-hidden="true">Scegli un negozio e avvia la ricerca: l'elenco mostra le sue offerte più recenti, con prezzo e percentuale di sconto.</p>
+
+          <div id="showcase-panel" role="tabpanel" aria-labelledby="step-search" data-showcase-frame>
+            <div data-app-preview="search"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FUNZIONI
+         ================================================================ -->
+    <section class="ds-section ds-section--soft ds-section--ruled" id="funzioni" aria-labelledby="funzioni-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-section-head">
+          <span class="ds-eyebrow">Funzioni</span>
+          <h2 id="funzioni-title">Tutto quello che serve per trovare lo sconto giusto.</h2>
+          <p class="ds-lead">Poche funzioni, pensate per un compito preciso: arrivare prima all'offerta che cerchi.</p>
+        </div>
+
+        <ul class="ds-grid ds-grid--auto-md">
+          <li class="ds-card ds-feature ds-feature--wide" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="search"></span>
+              <h3 class="ds-card__title">Ricerca su più negozi</h3>
+            </div>
+            <p class="ds-card__text">
+              Le offerte di quattro negozi digitali, prese dall'API di CheapShark: scegli
+              il negozio dal menu e cambi quando vuoi, senza aprire i loro siti.
+            </p>
+            <ul class="ds-feature__list">
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Steam</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Epic Games Store</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>GOG</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Humble Store</li>
+            </ul>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="filter"></span>
+              <h3 class="ds-card__title">Filtri combinati</h3>
+            </div>
+            <p class="ds-card__text">I filtri si applicano insieme, per un elenco che contiene solo ciò che ti interessa.</p>
+            <ul class="ds-feature__list">
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Negozio</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Genere, tramite l'API di Steam</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Sconto minimo</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Titolo del gioco</li>
+            </ul>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="user"></span>
+              <h3 class="ds-card__title">Account personale</h3>
+            </div>
+            <p class="ds-card__text">Un account tuo, confermato tramite email, per ritrovare le tue attività.</p>
+            <ul class="ds-feature__list">
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Registrazione</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Verifica email con codice a 6 cifre</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Accesso protetto</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Recupero password</li>
+            </ul>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="history"></span>
+              <h3 class="ds-card__title">Cronologia</h3>
+            </div>
+            <p class="ds-card__text">
+              I giochi che apri vengono salvati nella barra laterale: li ritrovi e li
+              riapri con un clic, senza doverli cercare di nuovo.
+            </p>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="key"></span>
+              <h3 class="ds-card__title">Profilo modificabile</h3>
+            </div>
+            <p class="ds-card__text">
+              Cambia username, email o password dal pannello Profilo. Ogni modifica
+              richiede la password attuale; per l'email servono anche due codici via email.
+            </p>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="devices"></span>
+              <h3 class="ds-card__title">Più computer</h3>
+            </div>
+            <p class="ds-card__text">
+              Lo stesso account e la stessa cronologia su computer diversi: accedi e
+              ritrovi tutto dove l'avevi lasciato.
+            </p>
+          </li>
+
+          <li class="ds-card ds-feature" data-reveal data-reveal-step="50">
+            <div class="ds-feature__head">
+              <span class="ds-icon-box" data-icon="shield"></span>
+              <h3 class="ds-card__title">Sicurezza</h3>
+            </div>
+            <p class="ds-card__text">Misure concrete a protezione dell'account, descritte per quello che sono.</p>
+            <ul class="ds-feature__list">
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Password mai conservate in chiaro</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Email di notifica a ogni modifica</li>
+              <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>Blocco dei tentativi ripetuti</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         COME FUNZIONA
+         ================================================================ -->
+    <section class="ds-section ds-section--ruled" id="come-funziona" aria-labelledby="come-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-section-head">
+          <span class="ds-eyebrow">Come funziona</span>
+          <h2 id="come-title">Dal download alla prima ricerca.</h2>
+        </div>
+
+        <ol class="ds-flow">
+          <li class="ds-flow__item" data-reveal data-reveal-step="70">
+            <span class="ds-flow__num">01</span>
+            <h3 class="ds-flow__title">Scarica</h3>
+            <p class="ds-flow__text">Scarica l'archivio ZIP, estrai la cartella e avvia DiscountSearcher.exe. Python non serve.</p>
+          </li>
+          <li class="ds-flow__item" data-reveal data-reveal-step="70">
+            <span class="ds-flow__num">02</span>
+            <h3 class="ds-flow__title">Registrati</h3>
+            <p class="ds-flow__text">Scegli username e password (almeno 8 caratteri) e indica un indirizzo Gmail e la data di nascita.</p>
+          </li>
+          <li class="ds-flow__item" data-reveal data-reveal-step="70">
+            <span class="ds-flow__num">03</span>
+            <h3 class="ds-flow__title">Verifica</h3>
+            <p class="ds-flow__text">Inserisci il codice a 6 cifre che ricevi per email, valido 15 minuti. L'account è attivo.</p>
+          </li>
+          <li class="ds-flow__item" data-reveal data-reveal-step="70">
+            <span class="ds-flow__num">04</span>
+            <h3 class="ds-flow__title">Cerca</h3>
+            <p class="ds-flow__text">Scegli il negozio, imposta genere, sconto minimo o parte del titolo e premi Cerca.</p>
+          </li>
+          <li class="ds-flow__item" data-reveal data-reveal-step="70">
+            <span class="ds-flow__num">05</span>
+            <h3 class="ds-flow__title">Ritrova</h3>
+            <p class="ds-flow__text">I giochi che apri finiscono in cronologia e li ritrovi anche accedendo da un altro computer.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         NEGOZI SUPPORTATI
+         ================================================================ -->
+    <section class="ds-section ds-section--soft ds-section--ruled" id="negozi" aria-labelledby="negozi-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-split">
+          <div class="ds-stack ds-stack--5">
+            <span class="ds-eyebrow">Negozi supportati</span>
+            <h2 id="negozi-title">Quattro negozi, un solo programma.</h2>
+            <p class="ds-lead">
+              Discount Searcher recupera le informazioni sulle offerte attraverso
+              l'<strong>API pubblica di CheapShark</strong>, un servizio che raccoglie
+              gli sconti di più negozi digitali. I generi dei giochi arrivano
+              dall'API pubblica di Steam.
+            </p>
+            <div class="ds-notice">
+              <span class="ds-notice__icon" data-icon="info" data-icon-size="17"></span>
+              <p>
+                <strong>Progetto indipendente.</strong> Discount Searcher non è affiliato,
+                sponsorizzato o approvato da nessuno dei negozi elencati né da CheapShark.
+                I prezzi mostrati sono quelli forniti da queste fonti: il prezzo valido
+                resta quello indicato dal negozio al momento dell'acquisto.
+              </p>
+            </div>
+          </div>
+
+          <ul class="ds-grid ds-grid--auto-sm" data-stores aria-label="Negozi supportati"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         ACCOUNT E SICUREZZA
+         ================================================================ -->
+    <section class="ds-section ds-section--ruled" id="account" aria-labelledby="account-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-split ds-split--sticky">
+          <div class="ds-stack ds-stack--5">
+            <span class="ds-eyebrow">Account e sicurezza</span>
+            <h2 id="account-title">Un account che ti segue, protetto da misure concrete.</h2>
+            <p class="ds-lead">
+              L'account rende la tua cronologia disponibile su qualsiasi computer.
+              Qui trovi, senza promesse gonfiate, come viene protetto.
+            </p>
+            <div class="ds-row">
+              <a class="ds-btn ds-btn--secondary ds-btn--arrow" href="faq.html#faq-protezione">
+                <span>Domande sulla sicurezza</span>
+                <span data-icon="arrowRight" data-icon-size="17" class="ds-btn__icon"></span>
+              </a>
+            </div>
+          </div>
+
+          <ul class="ds-seclist">
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="user"></span>
+              <div>
+                <h3 class="ds-secitem__title">Registrazione e verifica email</h3>
+                <p class="ds-secitem__text">Alla registrazione ricevi un codice di 6 cifre, valido 15 minuti. Finché l'email non è confermata, l'account non può accedere.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="lock"></span>
+              <div>
+                <h3 class="ds-secitem__title">Password mai conservate in chiaro</h3>
+                <p class="ds-secitem__text">Sul server resta solo un valore derivato dalla password, calcolato con un elemento casuale diverso per ogni utente.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="key"></span>
+              <div>
+                <h3 class="ds-secitem__title">Accesso protetto</h3>
+                <p class="ds-secitem__text">In caso di errore il messaggio non rivela se è sbagliato l'username o la password. Ogni accesso crea una sessione che il server può revocare.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="alert"></span>
+              <div>
+                <h3 class="ds-secitem__title">Blocco dei tentativi ripetuti</h3>
+                <p class="ds-secitem__text">Dopo diversi tentativi falliti ravvicinati sullo stesso username, l'accesso viene sospeso temporaneamente.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="refresh"></span>
+              <div>
+                <h3 class="ds-secitem__title">Recupero password</h3>
+                <p class="ds-secitem__text">Un codice di 6 cifre inviato all'email registrata permette di impostare una nuova password. Dopo il reset, tutti i computer collegati vengono disconnessi.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="mail"></span>
+              <div>
+                <h3 class="ds-secitem__title">Modifiche confermate e notificate</h3>
+                <p class="ds-secitem__text">Username e password si cambiano solo inserendo la password attuale; l'email anche con due codici, uno al vecchio indirizzo e uno al nuovo. Ogni modifica viene notificata via email all'indirizzo precedente.</p>
+              </div>
+            </li>
+            <li class="ds-secitem" data-reveal>
+              <span class="ds-icon-box" data-icon="devices"></span>
+              <div>
+                <h3 class="ds-secitem__title">Più computer, un solo account</h3>
+                <p class="ds-secitem__text">Accedi da computer diversi con le stesse credenziali e ritrovi la tua cronologia. Cambiando la password, gli altri computer vengono disconnessi.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         TEAM E CREDITI
+         ================================================================ -->
+    <section class="ds-section ds-section--soft ds-section--ruled" id="team" aria-labelledby="team-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-section-head">
+          <span class="ds-eyebrow">Team</span>
+          <h2 id="team-title">Le persone dietro Discount Searcher.</h2>
+        </div>
+
+        <ul class="ds-team" data-team></ul>
+
+        <!-- I ruoli aperti stanno in assets/js/data/jobs.js; la pagina è lavora-con-noi.html -->
+        <div class="ds-notice" style="margin-top:var(--ds-6)">
+          <span class="ds-notice__icon" data-icon="sparkle" data-icon-size="17"></span>
+          <p>
+            <strong>Vuoi far parte del team?</strong> Ci sono ruoli aperti nello sviluppo,
+            nella grafica, nell'assistenza e nei contenuti: si entra con un provino.
+            <a href="lavora-con-noi.html">Scopri come candidarti</a>.
+          </p>
+        </div>
+
+        <div class="ds-panel" id="crediti" style="margin-top: var(--ds-7)" aria-labelledby="crediti-title">
+          <div class="ds-split">
+            <div class="ds-stack ds-stack--3">
+              <span class="ds-eyebrow ds-eyebrow--plain">Crediti</span>
+              <h3 id="crediti-title">Costruito con</h3>
+              <p class="ds-card__text">Servizi e strumenti su cui si basa il progetto.</p>
+            </div>
+            <dl class="ds-ticket-meta">
+              <div class="ds-ticket-meta__row"><dt class="ds-ticket-meta__key">Dati sulle offerte</dt><dd class="ds-ticket-meta__val" style="margin:0">API pubblica di CheapShark</dd></div>
+              <div class="ds-ticket-meta__row"><dt class="ds-ticket-meta__key">Generi dei giochi</dt><dd class="ds-ticket-meta__val" style="margin:0">API pubblica di Steam</dd></div>
+              <div class="ds-ticket-meta__row"><dt class="ds-ticket-meta__key">Interfaccia desktop</dt><dd class="ds-ticket-meta__val" style="margin:0">Python · Tkinter / CustomTkinter</dd></div>
+              <div class="ds-ticket-meta__row"><dt class="ds-ticket-meta__key">Backend</dt><dd class="ds-ticket-meta__val" style="margin:0">FastAPI · PostgreSQL</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DOWNLOAD
+         ================================================================ -->
+    <section class="ds-section" id="download" aria-labelledby="download-title">
+      <div class="ds-container">
+        <div class="ds-cta" data-reveal>
+          <span class="ds-icon-box ds-icon-box--lg" data-icon="windows"></span>
+          <h2 id="download-title">Discount Searcher per Windows</h2>
+          <p class="ds-lead" style="text-align:center">
+            Un eseguibile autonomo: scarichi, avvii, crei il tuo account e inizi a cercare.
+          </p>
+
+          <!-- Il file arriva dall'ultima GitHub Release del progetto: "latest" punta
+               sempre alla versione più recente, quindi questo indirizzo non cambia mai.
+               Aggiornando l'app si pubblica una Release nuova con lo stesso nome di file. -->
+          <div class="ds-row" style="justify-content:center">
+            <a class="ds-btn ds-btn--primary ds-btn--lg" href="https://github.com/Occhiofly/DiscountSearcher/releases/latest/download/DiscountSearcher.zip"
+               rel="noopener" aria-describedby="download-note">
+              <span data-icon="download" data-icon-size="18" class="ds-btn__icon"></span>
+              <span>Scarica per Windows</span>
+            </a>
+            <a class="ds-btn ds-btn--secondary ds-btn--lg" href="assistenza.html">Centro assistenza</a>
+          </div>
+          <p class="ds-hint" id="download-note">Archivio ZIP da 23 MB · estrai la cartella e avvia DiscountSearcher.exe</p>
+
+          <ul class="ds-reqs" aria-label="Requisiti">
+            <li>Windows</li>
+            <li>Python non richiesto</li>
+            <li>Connessione a internet</li>
+          </ul>
+
+          <div class="ds-notice" style="max-width:62ch;text-align:left">
+            <span class="ds-notice__icon" data-icon="info" data-icon-size="17"></span>
+            <p>
+              <strong>Al primo avvio Windows può mostrare un avviso.</strong> L'applicazione
+              non ha una firma digitale a pagamento, quindi SmartScreen segnala che l'autore
+              non è riconosciuto: scegli <em>Ulteriori informazioni</em> e poi
+              <em>Esegui comunque</em>. Se preferisci non farlo, apri un ticket e ne parliamo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "_commento": "Ultima versione pubblicata dell'app e cosa cambia. La legge il server (api/release.py) e la passa all'app dentro GET /status: chi ha una versione più vecchia vede l'avviso all'avvio. Va aggiornato insieme a version.py quando si pubblica una versione nuova; le novità si scrivono per chi usa l'app, non per chi sviluppa.",
+  "version": "1.0.9",
+  "url": {
+    "it": "https://discountsearcher.it/#download",
+    "en": "https://discountsearcher.it/en/#download"
+  },
+  "notes": {
+    "it": [
+      "L'app ti avvisa da sola quando esce una versione nuova, e ti dice cosa cambia.",
+      "Corretto: ingrandendo o riducendo la finestra dai pulsanti di Windows, ora l'app se ne accorge e i comandi tornano della misura giusta.",
+      "La finestra si ingrandisce e si ridimensiona: a schermo pieno crescono anche scritte e comandi, e si vedono più offerte per volta.",
+      "L'app riapre la finestra come l'avevi lasciata.",
+      "Cambiare l'email dell'account è più sicuro: servono due codici, uno al vecchio indirizzo e uno al nuovo.",
+      "Ora l'account si può creare anche dal sito, senza installare l'app."
+    ],
+    "en": [
+      "The app tells you by itself when a new version is out, and what changed.",
+      "Fixed: when you maximise or restore the window from the Windows buttons, the app now notices and the controls go back to the right size.",
+      "The window can be resized and maximised: when it fills the screen, text and controls grow too, and you see more deals at once.",
+      "The app reopens the window the way you left it.",
+      "Changing your account email is safer: it now takes two codes, one to the old address and one to the new one.",
+      "You can now create an account from the website too, without installing the app."
+    ]
+  }
+}

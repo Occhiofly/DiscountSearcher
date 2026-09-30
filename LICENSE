@@ -1,0 +1,39 @@
+Discount Searcher — Licenza proprietaria
+Copyright (c) 2026 DiscountSearcher Team. Tutti i diritti riservati.
+
+Questo repository e tutto il suo contenuto (codice sorgente dell'applicazione
+desktop, del server e del sito web, testi, grafica, logo e documentazione)
+sono di proprietà esclusiva del DiscountSearcher Team.
+
+1. USO DELL'APPLICAZIONE
+   L'applicazione Discount Searcher, nella versione distribuita come eseguibile
+   dal sito ufficiale https://discountsearcher.it, può essere scaricata e usata
+   gratuitamente per scopi personali.
+
+2. COSA NON È PERMESSO
+   Senza un'autorizzazione scritta del DiscountSearcher Team non è permesso:
+   a) copiare, modificare, adattare o tradurre, in tutto o in parte, il codice
+      sorgente, i testi, la grafica o il logo;
+   b) distribuire, pubblicare, vendere, concedere in licenza o mettere a
+      disposizione di terzi il codice o l'applicazione, anche modificati;
+   c) decompilare, disassemblare o comunque ricostruire il codice sorgente
+      dell'applicazione, salvo nei casi in cui la legge lo consenta
+      espressamente e nei soli limiti da essa previsti;
+   d) usare il nome "Discount Searcher" o il logo per altri prodotti o servizi.
+
+3. ACCESSO AL CODICE
+   L'accesso a questo repository è riservato alle persone autorizzate dal
+   DiscountSearcher Team e non comporta alcuna licenza d'uso del codice oltre a
+   quanto necessario per lavorare al progetto.
+
+4. COMPONENTI DI TERZI
+   Il progetto usa librerie e contenuti di terzi (per esempio customtkinter,
+   requests, FastAPI, asyncpg, le icone di Simple Icons, i dati di CheapShark e
+   Steam), che restano soggetti alle proprie licenze e condizioni d'uso. I nomi
+   e i marchi dei negozi citati appartengono ai rispettivi proprietari.
+
+5. NESSUNA GARANZIA
+   L'applicazione è fornita "così com'è", senza garanzie di alcun tipo. Prezzi e
+   offerte provengono da servizi esterni e possono non essere aggiornati.
+
+Per richieste di autorizzazione: searcherdiscuont@gmail.com

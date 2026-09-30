@@ -1,0 +1,14 @@
+# Reindirizzamenti applicati da Netlify.
+#
+# Il sito è su https://discountsearcher.it: chi apre ancora il vecchio indirizzo di
+# Netlify (link salvati, condivisioni vecchie, email di ticket già inviate) viene
+# portato alla stessa pagina sul dominio nuovo. 301 = spostamento definitivo, così
+# anche i motori di ricerca aggiornano l'indirizzo. Il "!" applica la regola anche
+# se il file esiste.
+https://discountsearcher.netlify.app/*  https://discountsearcher.it/:splat  301!
+
+# File che stanno nella cartella web/ per chi lavora al sito, ma non servono ai
+# visitatori: il README descrive come funziona il sito e server.py è solo per
+# lavorare in locale. Online rispondono "pagina non trovata".
+/README.md   /pagina-non-trovata   404!
+/server.py   /pagina-non-trovata   404!

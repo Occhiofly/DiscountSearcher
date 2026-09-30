@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Candidati — Lavora con noi — Discount Searcher</title>
+  <meta name="description" content="Invia la tua candidatura per entrare nel team di Discount Searcher.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/apply.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav="lavoro"></div>
+
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container ds-container--wide">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="lavora-con-noi.html">Lavora con noi</a></li>
+          <li><span aria-current="page">Candidati</span></li>
+        </ol>
+      </nav>
+
+      <div data-ticket-view>
+        <div class="ds-ticket-layout">
+          <div class="ds-stack ds-stack--5">
+            <header class="ds-stack ds-stack--3">
+              <h1>Candidati</h1>
+              <p class="ds-lead">Scegli il ruolo e raccontaci chi sei: se la presentazione convince, il passo successivo è la prova pratica.</p>
+            </header>
+
+            <div data-account-notice></div>
+
+            <form class="ds-panel ds-form" id="apply-form" novalidate>
+              <div class="ds-form-errors" id="form-errors" tabindex="-1" role="alert" hidden></div>
+
+              <fieldset class="ds-form" style="border:0;padding:0;margin:0;min-width:0">
+                <legend class="ds-sr-only">Dati della candidatura</legend>
+                <p class="ds-hint">I campi contrassegnati da <span class="ds-label__req" aria-hidden="true">*</span> sono obbligatori.</p>
+
+                <div class="ds-field">
+                  <label class="ds-label" for="f-role">Ruolo<span class="ds-label__req" aria-hidden="true">*</span><span class="ds-sr-only"> (obbligatorio)</span></label>
+                  <select class="ds-select" id="f-role" name="role" required aria-describedby="f-role-err"></select>
+                  <p class="ds-error" id="f-role-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-presentation">Presentazione<span class="ds-label__req" aria-hidden="true">*</span><span class="ds-sr-only"> (obbligatorio)</span></label>
+                    <span class="ds-counter" data-counter-for="presentation" data-max="3000" aria-hidden="true"></span>
+                  </div>
+                  <textarea class="ds-textarea" id="f-presentation" name="presentation" rows="8" required
+                            placeholder="Chi sei, cosa sai fare, cosa ti ha fatto venire voglia di scrivere. Se hai già fatto qualcosa di simile, raccontalo."
+                            aria-describedby="f-presentation-hint f-presentation-err"></textarea>
+                  <p class="ds-hint" id="f-presentation-hint">Scrivi con parole tue: conta più un esempio concreto di un elenco di qualifiche.</p>
+                  <p class="ds-error" id="f-presentation-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-links">Link ai tuoi lavori <span class="ds-faint" style="font-weight:400">(facoltativo)</span></label>
+                    <span class="ds-counter" data-counter-for="links" data-max="600" aria-hidden="true"></span>
+                  </div>
+                  <textarea class="ds-textarea" id="f-links" name="links" rows="3" style="min-height:96px"
+                            placeholder="Un link per riga: repository, portfolio, pagina, canale."
+                            aria-describedby="f-links-hint f-links-err"></textarea>
+                  <p class="ds-hint" id="f-links-hint">Non è obbligatorio avere un portfolio: se non ne hai, basta descrivere cosa hai fatto.</p>
+                  <p class="ds-error" id="f-links-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <!-- Allegati: i limiti sono in components/file-picker.js e, per il server,
+                     in api/attachments.py. I file non vengono salvati: arrivano al team via email. -->
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <span class="ds-label" id="f-files-label">File allegati <span class="ds-faint" style="font-weight:400">(facoltativo)</span></span>
+                    <span class="ds-counter" data-file-count aria-hidden="true"></span>
+                  </div>
+                  <div class="ds-dropzone" data-dropzone>
+                    <input class="ds-dropzone__input" id="f-files" name="files" type="file" multiple
+                           accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,application/pdf,image/png,image/jpeg,image/gif,image/webp"
+                           aria-labelledby="f-files-label f-files-action" aria-describedby="f-files-hint f-files-err">
+                    <span class="ds-dropzone__icon" data-icon="paperclip" data-icon-size="20"></span>
+                    <span class="ds-dropzone__text">
+                      <strong id="f-files-action">Scegli i file</strong> oppure trascinali qui
+                    </span>
+                  </div>
+                  <p class="ds-hint" id="f-files-hint">PDF o immagini (PNG, JPG, GIF, WEBP): fino a 3 file da 4 MB, 10 MB in tutto. Li riceve solo il team, via email.</p>
+                  <ul class="ds-files" data-file-list hidden></ul>
+                  <p class="ds-error" id="f-files-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-availability">Disponibilità <span class="ds-faint" style="font-weight:400">(facoltativo)</span></label>
+                    <span class="ds-counter" data-counter-for="availability" data-max="200" aria-hidden="true"></span>
+                  </div>
+                  <input class="ds-input" id="f-availability" name="availability" type="text" maxlength="260"
+                         placeholder="Es. qualche ora a settimana, di sera"
+                         aria-describedby="f-availability-err">
+                  <p class="ds-error" id="f-availability-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+              </fieldset>
+
+              <div class="ds-notice ds-notice--warn" id="submit-error" role="alert" tabindex="-1" hidden>
+                <span class="ds-notice__icon" data-icon="alert" data-icon-size="17"></span>
+                <p><strong>Invio non riuscito.</strong> <span data-msg></span></p>
+              </div>
+
+              <div class="ds-notice" id="cancel-confirm" hidden>
+                <span class="ds-notice__icon" data-icon="info" data-icon-size="17"></span>
+                <div class="ds-stack ds-stack--3">
+                  <p><strong>Vuoi davvero uscire?</strong> Il testo scritto nel modulo andrà perso.</p>
+                  <div class="ds-row">
+                    <a class="ds-btn ds-btn--danger ds-btn--sm" href="lavora-con-noi.html">Esci senza inviare</a>
+                    <button class="ds-btn ds-btn--secondary ds-btn--sm" type="button" data-cancel-keep>Continua a scrivere</button>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ds-hint" data-sending role="status" hidden>Invio degli allegati in corso: con file grandi può richiedere qualche secondo.</p>
+
+              <div class="ds-form__actions">
+                <button class="ds-btn ds-btn--primary" type="submit">
+                  <span data-icon="send" data-icon-size="17" class="ds-btn__icon"></span>
+                  <span>Invia candidatura</span>
+                </button>
+                <a class="ds-btn ds-btn--ghost" href="lavora-con-noi.html" data-cancel>
+                  <span data-icon="arrowLeft" data-icon-size="17" class="ds-btn__icon"></span>
+                  <span>Annulla</span>
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <aside class="ds-ticket-layout__side ds-stack ds-stack--4" aria-label="Informazioni sul ruolo scelto">
+            <div class="ds-panel ds-stack ds-stack--4">
+              <h2 style="font-size:1.05rem">Il ruolo scelto</h2>
+              <div data-role-card></div>
+            </div>
+            <div class="ds-panel ds-stack ds-stack--3">
+              <h2 style="font-size:1.05rem">Cosa succede dopo</h2>
+              <ol class="ds-stack ds-stack--2">
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>la candidatura apre un ticket a tuo nome</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>il team ti assegna la prova rispondendo lì</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>consegni la prova nello stesso ticket</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>l'esito arriva nel ticket e via email</li>
+              </ol>
+              <p class="ds-hint">Tutti i dettagli sono in <a href="lavora-con-noi.html">Lavora con noi</a>.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

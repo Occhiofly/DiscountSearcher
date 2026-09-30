@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Area staff — Discount Searcher</title>
+  <meta name="description" content="Area riservata al team di Discount Searcher.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/staff.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+
+  <!-- Area staff: il team vede tutti i ticket, risponde e cambia lo stato.
+       Chi può entrare lo decide il server (STAFF_ACCOUNTS, vedi api/staff.py):
+       per gli altri la pagina mostra solo l'avviso "riservata al team", perché il
+       server non restituisce niente. Solo in italiano: la usa il team. -->
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container ds-container--wide">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="staff.html">Area staff</a></li>
+          <li data-crumb-ticket hidden><span aria-current="page"></span></li>
+        </ol>
+      </nav>
+
+      <div data-staff aria-live="polite">
+        <div class="ds-stack ds-stack--3" aria-hidden="true">
+          <div class="ds-skeleton ds-skeleton--row"></div>
+          <div class="ds-skeleton ds-skeleton--row"></div>
+          <div class="ds-skeleton ds-skeleton--row"></div>
+        </div>
+        <p class="ds-sr-only" role="status">Caricamento…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

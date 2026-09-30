@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Centro assistenza — Discount Searcher</title>
+  <meta name="description" content="Centro assistenza di Discount Searcher: guide su account, accesso, verifica email, recupero password, ricerca e filtri, domande frequenti e ticket di assistenza.">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="canonical" href="https://discountsearcher.it/assistenza">
+  <!-- Stessa pagina in inglese: i motori di ricerca mostrano la versione giusta -->
+  <link rel="alternate" hreflang="it" href="https://discountsearcher.it/assistenza">
+  <link rel="alternate" hreflang="en" href="https://discountsearcher.it/en/support">
+  <link rel="alternate" hreflang="x-default" href="https://discountsearcher.it/assistenza">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Discount Searcher">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:url" content="https://discountsearcher.it/assistenza">
+  <meta property="og:title" content="Centro assistenza — Discount Searcher">
+  <meta property="og:description" content="Guide, domande frequenti e ticket di assistenza per Discount Searcher.">
+  <meta property="og:image" content="https://discountsearcher.it/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo di Discount Searcher con il titolo: le offerte sui videogiochi, quattro negozi in un'unica app.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/support-home.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="contenuto">
+
+    <section class="ds-sup-hero" aria-labelledby="sup-title">
+      <div class="ds-container ds-sup-hero__inner">
+        <nav aria-label="Percorso">
+          <ol class="ds-crumbs">
+            <li><a href="index.html">Discount Searcher</a></li>
+            <li><span aria-current="page">Centro assistenza</span></li>
+          </ol>
+        </nav>
+
+        <h1 id="sup-title">Come possiamo aiutarti?</h1>
+        <p class="ds-lead" style="text-align:center">
+          Cerca fra guide e domande frequenti, oppure apri un ticket per parlare con il team.
+        </p>
+
+        <form class="ds-sup-hero__form" id="sup-search-form" role="search" autocomplete="off">
+          <label class="ds-sr-only" for="sup-search">Cerca nel Centro assistenza</label>
+          <div class="ds-search ds-search--lg">
+            <span class="ds-search__icon" data-icon="search" data-icon-size="21"></span>
+            <input class="ds-input" id="sup-search" type="search"
+                   placeholder="Es. codice di verifica, password, filtro genere"
+                   aria-describedby="sup-search-hint"
+                   aria-controls="sup-results">
+          </div>
+          <p class="ds-hint ds-sr-only" id="sup-search-hint">I risultati compaiono mentre scrivi. Premi Invio per andare al primo risultato.</p>
+          <div class="ds-sup-results" id="sup-results" hidden></div>
+          <p class="ds-sr-only" id="sup-results-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="ds-stack ds-stack--3" style="align-items:center">
+          <span class="ds-eyebrow ds-eyebrow--plain">Argomenti popolari</span>
+          <ul class="ds-chips" style="justify-content:center" data-topics></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section ds-section--tight" aria-labelledby="cat-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-section-head" style="margin-bottom:var(--ds-6)">
+          <span class="ds-eyebrow">Categorie</span>
+          <h2 id="cat-title">Sfoglia per argomento</h2>
+        </div>
+        <ul class="ds-grid ds-grid--auto-sm" data-categories></ul>
+      </div>
+    </section>
+
+    <section class="ds-section ds-section--tight ds-section--soft ds-section--ruled" aria-labelledby="faq-prev-title">
+      <div class="ds-container ds-container--wide">
+        <div class="ds-split">
+          <div class="ds-stack ds-stack--5">
+            <div class="ds-stack ds-stack--4">
+              <span class="ds-eyebrow">Domande frequenti</span>
+              <h2 id="faq-prev-title">Le risposte più richieste</h2>
+            </div>
+            <div data-faq-preview></div>
+            <div>
+              <a class="ds-btn ds-btn--secondary ds-btn--arrow" href="faq.html">
+                <span>Tutte le domande frequenti</span>
+                <span data-icon="arrowRight" data-icon-size="17" class="ds-btn__icon"></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="ds-stack ds-stack--4">
+            <div class="ds-panel ds-stack ds-stack--4">
+              <span class="ds-icon-box ds-icon-box--lg" data-icon="ticket"></span>
+              <h2 style="font-size:var(--ds-fs-h3)">Non hai trovato la risposta?</h2>
+              <p class="ds-card__text">
+                Apri un ticket: descrivi il problema, scegli la categoria e segui la
+                conversazione con il team dalla sezione I miei ticket.
+              </p>
+              <div class="ds-row">
+                <a class="ds-btn ds-btn--primary" href="ticket-nuovo.html">
+                  <span data-icon="ticket" data-icon-size="17" class="ds-btn__icon"></span>
+                  <span>Apri un ticket</span>
+                </a>
+                <a class="ds-btn ds-btn--ghost" href="ticket-lista.html">I miei ticket</a>
+              </div>
+            </div>
+
+            <div class="ds-panel">
+              <div class="ds-row" style="justify-content:space-between;margin-bottom:var(--ds-4)">
+                <h2 style="font-size:1.05rem">I tuoi ticket recenti</h2>
+                <a href="ticket-lista.html" style="font-size:var(--ds-fs-xs)">Vedi tutti</a>
+              </div>
+              <div data-recent-tickets aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

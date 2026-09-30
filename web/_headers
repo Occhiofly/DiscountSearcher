@@ -1,0 +1,22 @@
+# Intestazioni di sicurezza, applicate da Netlify a ogni pagina e file del sito.
+# Anche server.py le legge, così in locale il sito si comporta come online.
+#
+# Content-Security-Policy dice al browser da dove la pagina può caricare cose.
+# Se un giorno qualcuno riuscisse a inserire del codice in una pagina, il browser
+# non lo eseguirebbe e non lo lascerebbe comunicare con altri siti: è una difesa
+# in più per il token di sessione salvato nel browser.
+#   script-src   solo gli script del sito (niente script scritti dentro l'HTML)
+#   style-src    fogli di stile del sito e di Google Fonts; 'unsafe-inline' serve
+#                agli attributi style="" usati nelle pagine
+#   font-src     i caratteri di Google Fonts
+#   connect-src  le chiamate al server dell'API. SE CAMBIA API_BASE_URL in
+#                assets/js/services/config.js, VA CAMBIATO ANCHE QUI, altrimenti
+#                il browser blocca login e ticket.
+#   frame-ancestors 'none'  nessun altro sito può mostrare queste pagine dentro
+#                una sua cornice (protezione dal "clickjacking")
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://discountsearcher.onrender.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Domande frequenti — Discount Searcher</title>
+  <meta name="description" content="Domande frequenti su Discount Searcher: negozi supportati, origine dei dati, account, verifica email, recupero password, uso su più computer e sicurezza.">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="canonical" href="https://discountsearcher.it/faq">
+  <!-- Stessa pagina in inglese: i motori di ricerca mostrano la versione giusta -->
+  <link rel="alternate" hreflang="it" href="https://discountsearcher.it/faq">
+  <link rel="alternate" hreflang="en" href="https://discountsearcher.it/en/faq">
+  <link rel="alternate" hreflang="x-default" href="https://discountsearcher.it/faq">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Discount Searcher">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:url" content="https://discountsearcher.it/faq">
+  <meta property="og:title" content="Domande frequenti — Discount Searcher">
+  <meta property="og:description" content="Negozi supportati, origine dei dati, account, verifica email, recupero password e sicurezza.">
+  <meta property="og:image" content="https://discountsearcher.it/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo di Discount Searcher con il titolo: le offerte sui videogiochi, quattro negozi in un'unica app.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/faq.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="contenuto">
+    <section class="ds-sup-hero" aria-labelledby="faq-title">
+      <div class="ds-container ds-sup-hero__inner">
+        <nav aria-label="Percorso">
+          <ol class="ds-crumbs">
+            <li><a href="index.html">Discount Searcher</a></li>
+            <li><a href="assistenza.html">Centro assistenza</a></li>
+            <li><span aria-current="page">Domande frequenti</span></li>
+          </ol>
+        </nav>
+        <h1 id="faq-title">Domande frequenti</h1>
+        <p class="ds-lead" style="text-align:center">Risposte brevi sulle cose che vengono chieste più spesso.</p>
+
+        <div class="ds-sup-hero__form">
+          <label class="ds-sr-only" for="faq-search">Filtra le domande</label>
+          <div class="ds-search ds-search--lg">
+            <span class="ds-search__icon" data-icon="search" data-icon-size="21"></span>
+            <input class="ds-input" id="faq-search" type="search" placeholder="Filtra le domande, es. password" autocomplete="off" aria-controls="faq-list">
+          </div>
+        </div>
+        <div class="ds-chips" style="justify-content:center" role="group" aria-label="Filtra per argomento" data-faq-groups></div>
+        <p class="ds-sr-only" id="faq-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="ds-section ds-section--tight">
+      <div class="ds-container ds-container--text">
+        <div id="faq-list" data-faq></div>
+
+        <div class="ds-panel ds-stack ds-stack--4" style="margin-top:var(--ds-5)">
+          <h2 style="font-size:var(--ds-fs-h3)">Hai ancora un dubbio?</h2>
+          <p class="ds-card__text">Se la tua domanda non è qui, scrivi al team aprendo un ticket.</p>
+          <div class="ds-row">
+            <a class="ds-btn ds-btn--primary" href="ticket-nuovo.html">Apri un ticket</a>
+            <a class="ds-btn ds-btn--ghost" href="assistenza.html">Centro assistenza</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

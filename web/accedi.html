@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accedi — Centro assistenza — Discount Searcher</title>
+  <meta name="description" content="Accedi al Centro assistenza di Discount Searcher con il tuo account dell'app.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/login.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="assistenza.html">Centro assistenza</a></li>
+          <li><span aria-current="page">Accedi</span></li>
+        </ol>
+      </nav>
+
+      <div class="ds-auth ds-stack ds-stack--5" data-login-view>
+        <header class="ds-stack ds-stack--3" style="text-align:center;align-items:center">
+          <span class="ds-icon-box ds-icon-box--lg" data-icon="key"></span>
+          <h1 style="font-size:var(--ds-fs-h2)">Accedi</h1>
+          <p class="ds-muted">Usa lo stesso username e la stessa password dell'app Discount Searcher. Poi, per sicurezza, ti mandiamo un codice via email.</p>
+        </header>
+
+        <form class="ds-panel ds-form" id="login-form" novalidate>
+          <div class="ds-field">
+            <label class="ds-label" for="f-username">Username</label>
+            <input class="ds-input" id="f-username" name="username" type="text"
+                   autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label" for="f-password">Password</label>
+            <div class="ds-password">
+              <input class="ds-input" id="f-password" name="password" type="password"
+                     autocomplete="current-password" required>
+              <button class="ds-password__toggle" type="button" data-toggle-password
+                      aria-controls="f-password" aria-pressed="false">Mostra</button>
+            </div>
+          </div>
+
+          <div class="ds-notice ds-notice--warn" id="login-error" role="alert" hidden>
+            <span class="ds-notice__icon" data-icon="alert" data-icon-size="17"></span>
+            <p data-msg></p>
+          </div>
+
+          <p class="ds-hint" id="login-slow" role="status" hidden>
+            Il server si sta avviando dopo un periodo di inattività: può servire fino a un minuto.
+          </p>
+
+          <button class="ds-btn ds-btn--primary ds-btn--block" type="submit">
+            <span>Accedi</span>
+          </button>
+        </form>
+
+        <div class="ds-panel ds-stack ds-stack--3">
+          <p class="ds-card__text">
+            <strong>Non hai un account?</strong> <a href="registrati.html">Crealo qui</a>: serve un
+            indirizzo @gmail.com e la verifica con il codice a 6 cifre. Lo stesso account vale
+            anche per l'app.
+          </p>
+          <p class="ds-card__text">
+            <strong>Password dimenticata?</strong> Puoi reimpostarla dalla schermata di accesso
+            dell'app. <a href="assistenza-categoria.html?c=recupero-password">Come fare</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Tutte le pagine sono consultabili dai motori di ricerca.
+#
+# Le pagine dei ticket NON sono bloccate qui di proposito: hanno già
+# <meta name="robots" content="noindex">. Se fossero bloccate con Disallow,
+# i motori di ricerca non potrebbero leggere quel noindex e potrebbero
+# comunque mostrarne l'indirizzo nei risultati.
+User-agent: *
+Allow: /
+
+Sitemap: https://discountsearcher.it/sitemap.xml

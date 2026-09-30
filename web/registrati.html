@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crea un account — Discount Searcher</title>
+  <meta name="description" content="Crea l'account di Discount Searcher dal sito: serve un indirizzo Gmail e la verifica con il codice a 6 cifre. Lo stesso account vale per l'app e per il Centro assistenza.">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="canonical" href="https://discountsearcher.it/registrati">
+  <link rel="alternate" hreflang="it" href="https://discountsearcher.it/registrati">
+  <link rel="alternate" hreflang="en" href="https://discountsearcher.it/en/register">
+  <link rel="alternate" hreflang="x-default" href="https://discountsearcher.it/registrati">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/register.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <!-- Registrazione dal sito: stessi endpoint dell'app (/register, /verify-email,
+       /resend-code). Serve a chi non usa Windows — per esempio chi fa assistenza da
+       un Mac: l'account si crea da qualsiasi computer, poi i ticket si seguono dal sito. -->
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><span aria-current="page">Crea un account</span></li>
+        </ol>
+      </nav>
+
+      <div class="ds-auth ds-stack ds-stack--5" data-register-view>
+        <header class="ds-stack ds-stack--3" style="text-align:center;align-items:center">
+          <span class="ds-icon-box ds-icon-box--lg" data-icon="user"></span>
+          <h1 style="font-size:var(--ds-fs-h2)">Crea un account</h1>
+          <p class="ds-muted">
+            Lo stesso account vale per l'app e per il Centro assistenza. Serve un indirizzo
+            @gmail.com: ti mandiamo un codice di 6 cifre per verificarlo.
+          </p>
+        </header>
+
+        <form class="ds-panel ds-form" id="register-form" novalidate>
+          <div class="ds-field">
+            <label class="ds-label" for="f-username">Username</label>
+            <input class="ds-input" id="f-username" name="username" type="text" maxlength="64"
+                   autocomplete="username" autocapitalize="none" spellcheck="false" required>
+            <p class="ds-hint">Il nome con cui accedi. Non si può usarne uno già preso.</p>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label" for="f-email">Email</label>
+            <input class="ds-input" id="f-email" name="email" type="email" maxlength="254"
+                   autocomplete="email" autocapitalize="none" spellcheck="false"
+                   placeholder="nome@gmail.com" required>
+            <p class="ds-hint">Deve essere un indirizzo @gmail.com. Ci arriva il codice di verifica.</p>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label" for="f-password">Password</label>
+            <div class="ds-password">
+              <input class="ds-input" id="f-password" name="password" type="password"
+                     autocomplete="new-password" minlength="8" required>
+              <button class="ds-password__toggle" type="button" data-toggle-password
+                      aria-controls="f-password" aria-pressed="false">Mostra</button>
+            </div>
+            <p class="ds-hint">Almeno 8 caratteri.</p>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label" for="f-birth">Data di nascita</label>
+            <input class="ds-input" id="f-birth" name="birth_date" type="date" required>
+          </div>
+
+          <div class="ds-notice ds-notice--warn" id="register-error" role="alert" hidden>
+            <span class="ds-notice__icon" data-icon="alert" data-icon-size="17"></span>
+            <p data-msg></p>
+          </div>
+
+          <p class="ds-hint" id="register-slow" role="status" hidden>
+            Il server si sta avviando dopo un periodo di inattività: può servire fino a un minuto.
+          </p>
+
+          <button class="ds-btn ds-btn--primary ds-btn--block" type="submit">
+            <span>Crea l'account</span>
+          </button>
+
+          <p class="ds-hint">
+            Creando l'account accetti il trattamento dei dati descritto nell'<a href="privacy.html">informativa sulla privacy</a>.
+          </p>
+        </form>
+
+        <div class="ds-panel ds-stack ds-stack--3">
+          <p class="ds-card__text">
+            <strong>Hai già un account?</strong> <a href="accedi.html">Accedi</a>
+          </p>
+          <p class="ds-card__text">
+            <strong>Vuoi usare l'applicazione?</strong> Funziona su Windows e si scarica dalla
+            <a href="index.html#download">pagina iniziale</a>. Per seguire i ticket dal sito non serve.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

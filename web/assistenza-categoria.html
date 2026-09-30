@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categoria — Centro assistenza — Discount Searcher</title>
+  <meta name="description" content="Guide del Centro assistenza di Discount Searcher.">
+  <meta name="theme-color" content="#0b0b0f">
+
+  <!-- Niente og:url/canonical qui: la pagina cambia in base a ?c=, e un indirizzo
+       fisso farebbe sembrare tutte le categorie la stessa pagina. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Discount Searcher">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:title" content="Centro assistenza — Discount Searcher">
+  <meta property="og:description" content="Guide del Centro assistenza di Discount Searcher.">
+  <meta property="og:image" content="https://discountsearcher.it/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo di Discount Searcher con il titolo: le offerte sui videogiochi, quattro negozi in un'unica app.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/category.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container ds-container--wide">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="assistenza.html">Centro assistenza</a></li>
+          <li><span aria-current="page" data-crumb-current>Categoria</span></li>
+        </ol>
+      </nav>
+
+      <div data-category>
+        <div class="ds-stack ds-stack--4" aria-hidden="true">
+          <div class="ds-skeleton" style="width:52px;height:52px;border-radius:16px"></div>
+          <div class="ds-skeleton" style="width:40%;height:36px"></div>
+          <div class="ds-skeleton ds-skeleton--line" style="width:60%"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

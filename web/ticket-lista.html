@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I miei ticket — Centro assistenza — Discount Searcher</title>
+  <meta name="description" content="Elenco dei ticket di assistenza di Discount Searcher.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+
+  <script type="module" src="assets/js/pages/ticket-list.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#contenuto">Vai al contenuto</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav></div>
+
+  <main id="contenuto" class="ds-section ds-section--tight">
+    <div class="ds-container ds-container--wide">
+      <nav aria-label="Percorso" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="assistenza.html">Centro assistenza</a></li>
+          <li><span aria-current="page">I miei ticket</span></li>
+        </ol>
+      </nav>
+
+      <header class="ds-row" style="justify-content:space-between;align-items:flex-end;margin-bottom:var(--ds-5)">
+        <div class="ds-stack ds-stack--3">
+          <h1>I miei ticket</h1>
+          <p class="ds-muted">Segui lo stato delle tue richieste e rispondi al team.</p>
+        </div>
+        <a class="ds-btn ds-btn--primary" href="ticket-nuovo.html" data-new-ticket>
+          <span data-icon="ticket" data-icon-size="17" class="ds-btn__icon"></span>
+          <span>Nuovo ticket</span>
+        </a>
+      </header>
+
+      <div class="ds-toolbar" hidden>
+        <div class="ds-search" style="flex:1 1 260px;max-width:360px">
+          <span class="ds-search__icon" data-icon="search" data-icon-size="19"></span>
+          <label class="ds-sr-only" for="ticket-search">Cerca per oggetto o ID</label>
+          <input class="ds-input" id="ticket-search" type="search" placeholder="Cerca per oggetto o ID" autocomplete="off">
+        </div>
+        <div class="ds-chips" role="group" aria-label="Filtra per stato" data-status-filter></div>
+      </div>
+
+      <p class="ds-sr-only" id="ticket-status" role="status" aria-live="polite"></p>
+      <div data-ticket-list></div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>

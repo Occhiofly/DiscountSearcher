@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply — Join the team — Discount Searcher</title>
+  <meta name="description" content="Send your application to join the Discount Searcher team.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0b0f">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+
+  <script type="module" src="/assets/js/pages/apply.js"></script>
+</head>
+<body>
+  <a class="ds-skip" href="#content">Skip to content</a>
+  <header data-ds-header></header>
+  <div data-ds-subnav="lavoro"></div>
+
+  <main id="content" class="ds-section ds-section--tight">
+    <div class="ds-container ds-container--wide">
+      <nav aria-label="Breadcrumb" style="margin-bottom:var(--ds-6)">
+        <ol class="ds-crumbs">
+          <li><a href="index.html">Discount Searcher</a></li>
+          <li><a href="jobs.html">Join the team</a></li>
+          <li><span aria-current="page">Apply</span></li>
+        </ol>
+      </nav>
+
+      <div data-ticket-view>
+        <div class="ds-ticket-layout">
+          <div class="ds-stack ds-stack--5">
+            <header class="ds-stack ds-stack--3">
+              <h1>Apply</h1>
+              <p class="ds-lead">Choose the role and tell us who you are: if your introduction convinces us, the next step is the trial task.</p>
+            </header>
+
+            <div data-account-notice></div>
+
+            <form class="ds-panel ds-form" id="apply-form" novalidate>
+              <div class="ds-form-errors" id="form-errors" tabindex="-1" role="alert" hidden></div>
+
+              <fieldset class="ds-form" style="border:0;padding:0;margin:0;min-width:0">
+                <legend class="ds-sr-only">Application details</legend>
+                <p class="ds-hint">Fields marked with <span class="ds-label__req" aria-hidden="true">*</span> are required.</p>
+
+                <div class="ds-field">
+                  <label class="ds-label" for="f-role">Role<span class="ds-label__req" aria-hidden="true">*</span><span class="ds-sr-only"> (required)</span></label>
+                  <select class="ds-select" id="f-role" name="role" required aria-describedby="f-role-err"></select>
+                  <p class="ds-error" id="f-role-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-presentation">Introduction<span class="ds-label__req" aria-hidden="true">*</span><span class="ds-sr-only"> (required)</span></label>
+                    <span class="ds-counter" data-counter-for="presentation" data-max="3000" aria-hidden="true"></span>
+                  </div>
+                  <textarea class="ds-textarea" id="f-presentation" name="presentation" rows="8" required
+                            placeholder="Who you are, what you can do, what made you want to write. If you have done something similar before, tell us about it."
+                            aria-describedby="f-presentation-hint f-presentation-err"></textarea>
+                  <p class="ds-hint" id="f-presentation-hint">Write in your own words: one concrete example counts more than a list of qualifications.</p>
+                  <p class="ds-error" id="f-presentation-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-links">Links to your work <span class="ds-faint" style="font-weight:400">(optional)</span></label>
+                    <span class="ds-counter" data-counter-for="links" data-max="600" aria-hidden="true"></span>
+                  </div>
+                  <textarea class="ds-textarea" id="f-links" name="links" rows="3" style="min-height:96px"
+                            placeholder="One link per line: repository, portfolio, page, channel."
+                            aria-describedby="f-links-hint f-links-err"></textarea>
+                  <p class="ds-hint" id="f-links-hint">A portfolio is not required: if you do not have one, describing what you did is enough.</p>
+                  <p class="ds-error" id="f-links-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <!-- Attachments: the limits are in components/file-picker.js and, for the server,
+                     in api/attachments.py. Files are not stored: they reach the team by email. -->
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <span class="ds-label" id="f-files-label">Attached files <span class="ds-faint" style="font-weight:400">(optional)</span></span>
+                    <span class="ds-counter" data-file-count aria-hidden="true"></span>
+                  </div>
+                  <div class="ds-dropzone" data-dropzone>
+                    <input class="ds-dropzone__input" id="f-files" name="files" type="file" multiple
+                           accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,application/pdf,image/png,image/jpeg,image/gif,image/webp"
+                           aria-labelledby="f-files-label f-files-action" aria-describedby="f-files-hint f-files-err">
+                    <span class="ds-dropzone__icon" data-icon="paperclip" data-icon-size="20"></span>
+                    <span class="ds-dropzone__text">
+                      <strong id="f-files-action">Choose the files</strong> or drag them here
+                    </span>
+                  </div>
+                  <p class="ds-hint" id="f-files-hint">PDF or images (PNG, JPG, GIF, WEBP): up to 3 files of 4 MB, 10 MB in total. Only the team receives them, by email.</p>
+                  <ul class="ds-files" data-file-list hidden></ul>
+                  <p class="ds-error" id="f-files-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+
+                <div class="ds-field">
+                  <div class="ds-field-row">
+                    <label class="ds-label" for="f-availability">Availability <span class="ds-faint" style="font-weight:400">(optional)</span></label>
+                    <span class="ds-counter" data-counter-for="availability" data-max="200" aria-hidden="true"></span>
+                  </div>
+                  <input class="ds-input" id="f-availability" name="availability" type="text" maxlength="260"
+                         placeholder="E.g. a few hours a week, in the evening"
+                         aria-describedby="f-availability-err">
+                  <p class="ds-error" id="f-availability-err"><span data-icon="alert" data-icon-size="14"></span><span></span></p>
+                </div>
+              </fieldset>
+
+              <div class="ds-notice ds-notice--warn" id="submit-error" role="alert" tabindex="-1" hidden>
+                <span class="ds-notice__icon" data-icon="alert" data-icon-size="17"></span>
+                <p><strong>Sending failed.</strong> <span data-msg></span></p>
+              </div>
+
+              <div class="ds-notice" id="cancel-confirm" hidden>
+                <span class="ds-notice__icon" data-icon="info" data-icon-size="17"></span>
+                <div class="ds-stack ds-stack--3">
+                  <p><strong>Do you really want to leave?</strong> The text written in the form will be lost.</p>
+                  <div class="ds-row">
+                    <a class="ds-btn ds-btn--danger ds-btn--sm" href="jobs.html">Leave without sending</a>
+                    <button class="ds-btn ds-btn--secondary ds-btn--sm" type="button" data-cancel-keep>Keep writing</button>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ds-hint" data-sending role="status" hidden>Sending the attachments: with large files this can take a few seconds.</p>
+
+              <div class="ds-form__actions">
+                <button class="ds-btn ds-btn--primary" type="submit">
+                  <span data-icon="send" data-icon-size="17" class="ds-btn__icon"></span>
+                  <span>Send application</span>
+                </button>
+                <a class="ds-btn ds-btn--ghost" href="jobs.html" data-cancel>
+                  <span data-icon="arrowLeft" data-icon-size="17" class="ds-btn__icon"></span>
+                  <span>Cancel</span>
+                </a>
+              </div>
+            </form>
+          </div>
+
+          <aside class="ds-ticket-layout__side ds-stack ds-stack--4" aria-label="Information about the chosen role">
+            <div class="ds-panel ds-stack ds-stack--4">
+              <h2 style="font-size:1.05rem">The chosen role</h2>
+              <div data-role-card></div>
+            </div>
+            <div class="ds-panel ds-stack ds-stack--3">
+              <h2 style="font-size:1.05rem">What happens next</h2>
+              <ol class="ds-stack ds-stack--2">
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>the application opens a ticket in your name</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>the team assigns the trial task by replying there</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>you hand the trial in from the same ticket</li>
+                <li class="ds-feature__li"><span data-icon="check" data-icon-size="14"></span>the outcome arrives in the ticket and by email</li>
+              </ol>
+              <p class="ds-hint">All the details are in <a href="jobs.html">Join the team</a>.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer data-ds-footer></footer>
+</body>
+</html>
