@@ -1,6 +1,6 @@
 # Discount Searcher
 
-🇮🇹 [Versione italiana](README.md) — the full documentation is in Italian.
+🇮🇹 [Versione italiana](README.md) — the complete documentation is in Italian; this page covers what it does, how it is built, what happens to your data and how to run it from source.
 
 **Video game deals from four stores, in a single window.** A free application for Windows:
 no ads, no trackers, no data selling.
@@ -76,6 +76,101 @@ The project is split in two halves that can run on different machines: the deskt
 
 The application zip is **not** in the repository: it is published with each
 [release](https://github.com/Occhiofly/DiscountSearcher/releases).
+
+## Accounts, email and security
+
+Using the app requires an account: the history of the deals you opened is tied to it, so you
+find it again from another computer. This is what happens to your data.
+
+**Sign-up.** Username, password, a `@gmail.com` address and date of birth. The server creates
+the account as **unverified** and emails a 6-digit code (generated with Python's `secrets`
+module, meant for unpredictable values) that is valid for 15 minutes. An unverified account
+**cannot sign in**: trying anyway sends a fresh code instead of failing with a generic error.
+The same flow works from the website, for people who are not on Windows.
+
+**Sign-in.** Wrong credentials always give the same message, "Wrong username or password",
+without saying which one was wrong. On success the server opens a session and returns a
+token, which the app stores locally in `session.json` and reuses on the next start.
+
+**On the website, sign-in takes two steps**: after the password, the server emails a 6-digit
+code valid for 10 minutes, and only that code opens the session. Five wrong codes and you
+start again from the password. Sessions created this way are marked in a separate table, and
+**support tickets and the staff area accept only those**: knowing a password and getting a
+token the way the desktop app does is not enough to read tickets on the website.
+
+**Passwords** are never stored: only a PBKDF2-HMAC-SHA256 hash, with a random per-user salt
+and 260,000 iterations. Changing your username, email or password always requires typing the
+**current** password again, and a security notice is emailed to the address the account had
+**before** the change. Changing the password signs out every **other** device, not the one
+making the change.
+
+**Changing the email address takes two codes**, one to the **current** address and one to the
+**new** one. The code to the current address stops someone who has learnt the password from
+swapping in their own address and taking over the account; the code to the new address stops
+you from locking yourself out with a typo. Codes last 15 minutes, five wrong attempts and it
+starts over, and once done the old address is notified.
+
+**Email is sent by the server only** (`api/`): the desktop application holds no credentials
+and no sending logic. The server uses SMTP with a dedicated Gmail account and a Google "app
+password", kept in `api/.env`, which is **not** in this repository.
+
+| Type | When | What it contains |
+|---|---|---|
+| Verification code | On sign-up, or signing in with an unverified account | 6-digit code, valid 15 minutes |
+| Security notice | When username, email or password change | What changed and when, sent to the previously registered address |
+| Support ticket | When you open a ticket or reply, and when the team answers | The ticket and its replies, with a link to it |
+
+**No newsletters and no advertising**, as the [privacy policy](https://discountsearcher.it/en/privacy)
+says. The interactive API documentation (`/docs`) is off by default and stays off in
+production, so the server does not list all of its endpoints to anyone passing by.
+
+## Running it from source
+
+Two halves, and the **server comes first**: the desktop app needs it running.
+
+### 1. Server (`api/` folder)
+
+Requirements: Python 3.10+ and a free [Supabase](https://supabase.com/) account.
+
+1. Create a Supabase project and run, in its SQL Editor, `schema.sql` (repository root) and
+   then `api/tickets_schema.sql`, `api/language_schema.sql`, `api/site_login_schema.sql` and
+   `api/email_change_schema.sql`.
+2. Copy the connection string from Supabase's "Connect" panel ("Session pooler" mode).
+   If the password contains characters such as `@`, `/`, `?` or `#`, percent-encode them, or
+   the address will not parse.
+3. `pip install -r requirements.txt` from inside `api/`.
+4. Copy `api/.env.example` to `api/.env` and fill in `DATABASE_URL`, `GMAIL_ADDRESS` and
+   `GMAIL_APP_PASSWORD` (a Google "app password", not your normal one — a dedicated Gmail
+   account is recommended). Optional: `CORS_ORIGINS`, `SITE_URL`, `SUPPORT_STAFF`,
+   `STAFF_ACCOUNTS`, `ENABLE_API_DOCS=1` to turn the API docs on locally.
+5. `uvicorn main:app --reload`, then open http://127.0.0.1:8000/health: it should answer
+   `{"status":"ok","database":"connected"}`.
+
+### 2. Desktop app
+
+Requirements: Python 3.10+.
+
+1. `pip install -r requirements.txt` from the repository root.
+2. Check `api_config.py`: `API_BASE_URL` must point at your server (by default
+   `http://127.0.0.1:8000`).
+3. `python main.py`.
+
+To build the standalone `.exe`, run `python build_app.py` (Nuitka; see the Italian
+documentation for the details and for what to check before publishing a build).
+
+## What the Italian documentation covers
+
+The [Italian README](README.md) is the documentation the team works from. If you read Italian,
+or do not mind a machine translation, it also explains:
+
+- [why the project was created and how it was built](README.md#perch%C3%A9-%C3%A8-stato-creato)
+- [the support tickets and the staff area](README.md#ticket-di-assistenza)
+- [how the window scales and resizes](README.md#la-finestra-dellapp)
+- [how Italian and English are handled](README.md#italiano-e-inglese)
+- [the new-version notice](README.md#avviso-di-versione-nuova)
+- [maintenance mode, used while updating the server](README.md#aggiornamenti-la-modalit%C3%A0-manutenzione)
+- [the project layout, file by file](README.md#struttura-del-progetto)
+- [how the executable is built](README.md#creare-leseguibile-exe)
 
 ## Credits
 
