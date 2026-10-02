@@ -256,7 +256,7 @@ Dalla schermata iniziale puoi registrare un nuovo account (solo con indirizzo em
 | `attachments.py` | Controllo degli allegati dei ticket e delle candidature (tipo, dimensione, nome) |
 | `body_limit.py` | Limite di 15 MB alle richieste, contato mentre il corpo viene letto |
 | `rate_limit.py` | Limiti ai tentativi sbagliati e agli invii di email con codice |
-| `session_cleanup.py` | Cancella le sessioni scadute o disconnesse 30 giorni dopo l'ultimo utilizzo (come dichiara l'informativa privacy) |
+| `session_cleanup.py` | Pulizia periodica (due volte al giorno): sessioni scadute o disconnesse dopo 30 giorni, richieste di accesso e cambi email mai completati dopo un giorno, account mai confermati dopo 7 giorni — tutti tempi dichiarati nell'informativa privacy |
 | `database.py` | Gestione del pool di connessioni PostgreSQL |
 | `auth.py` | Hashing password, generazione codici/token |
 | `deps.py` | Verifica del token di sessione, condivisa da tutti gli endpoint protetti |
