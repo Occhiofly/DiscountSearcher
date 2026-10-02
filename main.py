@@ -124,6 +124,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         #restano minuscoli in mezzo al vuoto (vedi _adatta_alla_finestra).
         self._scala = 1.0
         self._scala_attesa = None
+        self._colonne_modulo = [] #colonne di accesso e registrazione, da tenere centrate
         self.bind("<Configure>", self._on_resize)
         try:
             self.iconbitmap(resource_path("assets/logo.ico")) #Icona ufficiale, mostrata nel titolo e nella barra delle applicazioni
@@ -424,21 +425,30 @@ class App(customtkinter.CTk): #Finestra pricipale
         self.forgot_password_back_button.place(relx=0.5, rely=0.85, anchor="center")
         self.forgot_password_frame.place_forget() #Nascondiamo il pannello all'avvio
 
-    def _create_password_field(self, parent, rely, width=250, height=35, placeholder_text=None):
+    def _create_password_field(self, parent, rely=None, width=250, height=35,
+                               placeholder_text=None, pady=None):
         """
         Crea un campo password con il lucchetto per mostrarla/nasconderla mentre si digita.
         Restituisce l'entry (per leggere il valore con .get() come sempre) — il resto
         (il contenitore, il simbolo) è gestito internamente e non serve toccarlo altrove.
+
+        Con `rely` si posiziona da solo nel pannello (schermate costruite con place);
+        con `pady` si impila nella colonna del genitore (accesso e registrazione).
         """
         row = customtkinter.CTkFrame(parent, fg_color="transparent", width=width, height=height)
-        row.place(relx=0.5, rely=rely, anchor="center")
+        if rely is not None:
+            row.place(relx=0.5, rely=rely, anchor="center")
+        else:
+            row.pack(pady=pady if pady is not None else 0)
         row.pack_propagate(False) #Mantiene fissa la dimensione del contenitore, anche se dentro c'è meno spazio
 
         entry = customtkinter.CTkEntry(row, show="*", placeholder_text=placeholder_text)
-        entry.pack(side="left", fill="both", expand=True)
+        entry.pack(fill="both", expand=True)
 
-        toggle = customtkinter.CTkLabel(row, text="🔒", width=28, cursor="hand2", font=("Arial", 14)) #🔒 all'avvio: coerente con show="*" (nascosta)
-        toggle.pack(side="right", padx=(5, 0))
+        #Il lucchetto sta DENTRO la casella, sul bordo destro: fuori renderebbe il campo
+        #password più corto di tutti gli altri, e le caselle non sarebbero più allineate.
+        toggle = customtkinter.CTkLabel(row, text="🔒", width=20, cursor="hand2", font=("Arial", 14)) #🔒 all'avvio: coerente con show="*" (nascosta)
+        toggle.place(relx=1.0, rely=0.5, anchor="e", x=-8)
         toggle.bind("<Button-1>", lambda event: self._toggle_password_visibility(entry, toggle))
 
         return entry
@@ -471,30 +481,76 @@ class App(customtkinter.CTk): #Finestra pricipale
         if fixed != value:
             var.set(fixed) #Corregge il campo mentre l'utente digita
 
+    #Spazi della colonna di accesso e registrazione, in unità di widget: CustomTkinter
+    #li moltiplica per la scala, quindi restano in proporzione a qualsiasi dimensione.
+    #Erano percentuali dell'altezza della finestra, e con le caselle alte 35 le etichette
+    #finivano addosso al campo sopra.
+    _SPAZIO_SOPRA_ETICHETTA = 14
+    _SPAZIO_SOTTO_ETICHETTA = 4
+
+    def _crea_colonna(self, parent):
+        """
+        Colonna centrata in cui impilare i campi. Lo spazio tra una voce e l'altra lo
+        decide pack a partire dall'altezza vera dei widget: niente più sovrapposizioni
+        quando la finestra è bassa o quando le scritte crescono.
+        """
+        colonna = customtkinter.CTkFrame(parent, fg_color="transparent")
+        #Ancorata in alto e non al centro: le due colonne (accesso e registrazione) hanno
+        #altezze diverse, e centrandole ciascuna sul proprio contenuto i due titoli
+        #finirebbero a quote diverse. Partono dalla stessa riga, decisa da _centra_colonne.
+        colonna.place(relx=0.5, rely=0.14, anchor="n")
+        self._colonne_modulo.append(colonna)
+        return colonna
+
+    def _centra_colonne(self):
+        """
+        Mette le due colonne alla stessa altezza, centrando la più alta nella finestra.
+        Si rifà a ogni ridimensionamento: con una finestra bassa una quota fissa farebbe
+        uscire la registrazione dal bordo, con una alta la lascerebbe tutta in cima.
+        """
+        colonne = [c for c in self._colonne_modulo if c.winfo_exists()]
+        self._colonne_modulo = colonne
+        if not colonne:
+            return
+        self.update_idletasks() #servono le altezze vere del contenuto
+        altezza = self.winfo_height()
+        if altezza <= 1:
+            return
+        piu_alta = max(c.winfo_reqheight() for c in colonne)
+        #Almeno un po' d'aria in cima; se il contenuto non ci sta, si parte comunque dall'alto
+        rely = max(0.02, (altezza - piu_alta) / 2 / altezza)
+        for colonna in colonne:
+            colonna.place(relx=0.5, rely=rely, anchor="n")
+
+    def _crea_etichetta_campo(self, colonna, testo, primo=False):
+        """Etichetta sopra una casella, con l'aria giusta: più sopra, poca sotto."""
+        etichetta = customtkinter.CTkLabel(colonna, text=testo, font=("Arial", 14))
+        etichetta.pack(pady=(0 if primo else self._SPAZIO_SOPRA_ETICHETTA, self._SPAZIO_SOTTO_ETICHETTA))
+        return etichetta
+
     def _create_login(self):
-        self.login_title = customtkinter.CTkLabel(self.login_frame, text=t("login_title"), font=("Arial", 28, "bold")) #Creazione pannelo e inseriamo il testo
-        self.login_title.place(relx=0.5, rely=0.35, anchor="center") #Posizioniamo il titolo al centro della sezione Login
-        self.login_username = customtkinter.CTkLabel(self.login_frame, text=t("username"), font=("Arial", 14)) #Sezione usernale sotto al titolo
-        self.login_username.place(relx=0.5, rely=0.43, anchor="center") #Posizioniamo il campo username
-        self.login_username_entry = customtkinter.CTkEntry(self.login_frame, width=250, height=35) #Casella dove utente puo scrivere
-        self.login_username_entry.place(relx=0.5, rely=0.49, anchor="center") #Sezione al centro
-        self.login_password = customtkinter.CTkLabel(self.login_frame, text=t("password"), font=("Arial", 14)) #Sezione password
-        self.login_password.place(relx=0.5, rely=0.55, anchor="center") #Posizioniamo il campo password
-        self.login_password_entry = self._create_password_field(self.login_frame, rely=0.61) #Campo password con lucchetto
-        self.login_button = customtkinter.CTkButton(self.login_frame, text=t("login_title"), width=250, height=35, fg_color="#5B5EA6", hover_color="#4a4d8f", command=self._handle_login) #Bottone Accedi
-        self.login_button.place(relx=0.5, rely=0.70, anchor="center") #Posizionamento dell bottone Accedi
-        self.login_footer = customtkinter.CTkLabel(self.login_frame, text=t("login_footer"), font=("Arial", 11), text_color="gray") #Creazione footer
-        self.login_footer.place(relx=0.5, rely=0.76, anchor="center") #Posizionamento footer
-        self.login_forgot_password = customtkinter.CTkLabel(self.login_frame, text=t("forgot_link"), font=("Arial", 11), text_color="gray", cursor="hand2") #Link password dimenticata
-        self.login_forgot_password.place(relx=0.5, rely=0.80, anchor="center") #Posizionamento sotto il footer
+        colonna = self._crea_colonna(self.login_frame)
+        self.login_title = customtkinter.CTkLabel(colonna, text=t("login_title"), font=("Arial", 28, "bold")) #Titolo della colonna
+        self.login_title.pack(pady=(0, 18))
+        self.login_username = self._crea_etichetta_campo(colonna, t("username"), primo=True)
+        self.login_username_entry = customtkinter.CTkEntry(colonna, width=250, height=35) #Casella dove utente puo scrivere
+        self.login_username_entry.pack()
+        self.login_password = self._crea_etichetta_campo(colonna, t("password"))
+        self.login_password_entry = self._create_password_field(colonna) #Campo password con lucchetto
+        self.login_button = customtkinter.CTkButton(colonna, text=t("login_title"), width=250, height=35, fg_color="#5B5EA6", hover_color="#4a4d8f", command=self._handle_login) #Bottone Accedi
+        self.login_button.pack(pady=(22, 0))
+        self.login_footer = customtkinter.CTkLabel(colonna, text=t("login_footer"), font=("Arial", 11), text_color="gray") #Creazione footer
+        self.login_footer.pack(pady=(14, 0))
+        self.login_forgot_password = customtkinter.CTkLabel(colonna, text=t("forgot_link"), font=("Arial", 11), text_color="gray", cursor="hand2") #Link password dimenticata
+        self.login_forgot_password.pack(pady=(6, 0))
         self.login_forgot_password.bind("<Button-1>", lambda event: self._open_forgot_password_panel()) #Click apre il pannello di reset
         #Cambio lingua: sempre visibile anche prima di accedere, in alto a destra come nella
         #maggior parte delle applicazioni. Sta nel pannello di registrazione, così sparisce
         #sotto le schermate a tutta finestra (verifica email, password dimenticata).
         self.language_selector = self._create_language_selector(self.register_frame)
         self.language_selector.place(relx=0.96, rely=0.05, anchor="ne")
-        self.login_error = customtkinter.CTkLabel(self.login_frame, text="", text_color="red", font=("Arial", 12)) #Errore
-        self.login_error.place(relx=0.5, rely=0.87, anchor="center") #Posizionamento dell errore
+        self.login_error = customtkinter.CTkLabel(colonna, text="", text_color="red", font=("Arial", 12)) #Errore
+        self.login_error.pack(pady=(12, 0))
 
     def _create_language_selector(self, parent, width=180, font_size=12):
         """
@@ -580,40 +636,51 @@ class App(customtkinter.CTk): #Finestra pricipale
             self.login_error.configure(text_color="red", text=t("connection_error"))
 
     def _create_register(self):
-        self.register_title = customtkinter.CTkLabel(self.register_frame, text=t("register_title"), font=("Arial", 28, "bold")) #Creazione pannelo Titolo
-        self.register_title.place(relx=0.5, rely=0.28, anchor="center") #Posizioniamo il titolo
-        self.register_username = customtkinter.CTkLabel(self.register_frame, text=t("username"), font=("Arial", 14)) #Username
-        self.register_username.place(relx=0.5, rely=0.35, anchor="center") #Username al centro
-        self.register_username_entry = customtkinter.CTkEntry(self.register_frame, width=250, height=35) #Casella dove utente puo scrivere
-        self.register_username_entry.place(relx=0.5, rely=0.40, anchor="center") #Sezione al centro
-        self.register_password = customtkinter.CTkLabel(self.register_frame, text=t("password"), font=("Arial", 14)) #Sezione password
-        self.register_password.place(relx=0.5, rely=0.46, anchor="center") #Posizioniamo il campo password
-        self.register_password_entry = self._create_password_field(self.register_frame, rely=0.51) #Campo password con lucchetto
-        self.register_email = customtkinter.CTkLabel(self.register_frame, text=t("email"), font=("Arial", 14)) #Sezione email
-        self.register_email.place(relx=0.5, rely=0.57, anchor="center") #Posizioniamo il campo email
-        self.register_email_entry = customtkinter.CTkEntry(self.register_frame, width=250, height=35) #Casella dove utente puo scrivere la sua email
-        self.register_email_entry.place(relx=0.5, rely=0.62, anchor="center") #Sezione al centro
-        self.register_birth_date = customtkinter.CTkLabel(self.register_frame, text=t("birth_date"), font=("Arial", 14)) #Sezione data di nascita
-        self.register_birth_date.place(relx=0.5, rely=0.68, anchor="center") #Posizioniamo il campo data di nascita
-        self.register_day = customtkinter.CTkLabel(self.register_frame, text=t("day"), font=("Arial", 12)) #Etichetta giorno
-        self.register_day.place(relx=0.3, rely=0.73, anchor="center") #Posizione etichetta giorno
+        colonna = self._crea_colonna(self.register_frame)
+        self.register_title = customtkinter.CTkLabel(colonna, text=t("register_title"), font=("Arial", 28, "bold")) #Titolo della colonna
+        self.register_title.pack(pady=(0, 18))
+        self.register_username = self._crea_etichetta_campo(colonna, t("username"), primo=True)
+        self.register_username_entry = customtkinter.CTkEntry(colonna, width=250, height=35) #Casella dove utente puo scrivere
+        self.register_username_entry.pack()
+        self.register_password = self._crea_etichetta_campo(colonna, t("password"))
+        self.register_password_entry = self._create_password_field(colonna) #Campo password con lucchetto
+        self.register_email = self._crea_etichetta_campo(colonna, t("email"))
+        self.register_email_entry = customtkinter.CTkEntry(colonna, width=250, height=35) #Casella dove utente puo scrivere la sua email
+        self.register_email_entry.pack()
+        self.register_birth_date = self._crea_etichetta_campo(colonna, t("birth_date"))
+
+        #Giorno, mese e anno affiancati: una riga con tre colonnine, così restano
+        #allineati tra loro qualunque sia la larghezza della finestra.
+        riga_data = customtkinter.CTkFrame(colonna, fg_color="transparent")
+        riga_data.pack()
         self.register_day_var = self._make_digit_var(2, max_value=31) #Massimo 2 cifre, e non oltre 31
-        self.register_day_entry = customtkinter.CTkEntry(self.register_frame, width=60, height=35, textvariable=self.register_day_var) #Casella giorno
-        self.register_day_entry.place(relx=0.3, rely=0.78, anchor="center") #Posizione casella giorno
-        self.register_month = customtkinter.CTkLabel(self.register_frame, text=t("month"), font=("Arial", 12)) #Etichetta mese
-        self.register_month.place(relx=0.5, rely=0.73, anchor="center") #Posizione etichetta mese
         self.register_month_var = self._make_digit_var(2, max_value=12) #Massimo 2 cifre, e non oltre 12
-        self.register_month_entry = customtkinter.CTkEntry(self.register_frame, width=60, height=35, textvariable=self.register_month_var) #Casella mese
-        self.register_month_entry.place(relx=0.5, rely=0.78, anchor="center") #Posizione casella mese
-        self.register_year = customtkinter.CTkLabel(self.register_frame, text=t("year"), font=("Arial", 12)) #Etichetta anno
-        self.register_year.place(relx=0.7, rely=0.73, anchor="center") #Posizione etichetta anno
         self.register_year_var = self._make_digit_var(4, max_value=datetime.date.today().year) #Massimo 4 cifre, e non oltre l'anno corrente
-        self.register_year_entry = customtkinter.CTkEntry(self.register_frame, width=90, height=35, textvariable=self.register_year_var) #Casella anno
-        self.register_year_entry.place(relx=0.7, rely=0.78, anchor="center") #Posizione casella anno
-        self.register_button = customtkinter.CTkButton(self.register_frame, text=t("register_title"), width=250, height=35, fg_color="#5B5EA6", hover_color="#4a4d8f", command=self._handle_register) #Bottone Registrati
-        self.register_button.place(relx=0.5, rely=0.86, anchor="center") #Posizionamento del bottone Registrati
-        self.register_error = customtkinter.CTkLabel(self.register_frame, text="", text_color="red", font=("Arial", 12)) #Errore registrazione
-        self.register_error.place(relx=0.5, rely=0.93, anchor="center") #Posizionamento errore
+        pezzi = [("day", "register_day", "register_day_entry", self.register_day_var, 60),
+                 ("month", "register_month", "register_month_entry", self.register_month_var, 60),
+                 ("year", "register_year", "register_year_entry", self.register_year_var, 90)]
+        for chiave, nome_etichetta, nome_casella, variabile, larghezza in pezzi:
+            colonnina = customtkinter.CTkFrame(riga_data, fg_color="transparent")
+            colonnina.pack(side="left", padx=6)
+            etichetta = customtkinter.CTkLabel(colonnina, text=t(chiave), font=("Arial", 12))
+            etichetta.pack(pady=(0, self._SPAZIO_SOTTO_ETICHETTA))
+            casella = customtkinter.CTkEntry(colonnina, width=larghezza, height=35, textvariable=variabile)
+            casella.pack()
+            setattr(self, nome_etichetta, etichetta)
+            setattr(self, nome_casella, casella)
+
+        self.register_button = customtkinter.CTkButton(colonna, text=t("register_title"), width=250, height=35, fg_color="#5B5EA6", hover_color="#4a4d8f", command=self._handle_register) #Bottone Registrati
+        self.register_button.pack(pady=(22, 0))
+        self.register_error = customtkinter.CTkLabel(colonna, text="", text_color="red", font=("Arial", 12)) #Errore registrazione
+        self.register_error.pack(pady=(12, 0))
+        #Il selettore della lingua nasce con il pannello di accesso, quindi sta SOTTO la
+        #colonna appena creata: la colonna è trasparente ma disegna lo sfondo, e lo
+        #coprirebbe a metà. lift() lo riporta in cima.
+        selettore = getattr(self, "language_selector", None)
+        if selettore is not None and selettore.winfo_exists():
+            selettore.lift()
+        #Appena la finestra ha disegnato: le due colonne alla stessa altezza, centrate
+        self.after(80, self._centra_colonne)
 
     def _handle_register(self):
         username = self.register_username_entry.get() #Prendiamo il username
@@ -829,8 +896,10 @@ class App(customtkinter.CTk): #Finestra pricipale
         #Il lato più "stretto" decide: così niente esce dai bordi in una finestra bassa e larga
         voluta = min(larghezza / self._BASE_LARGHEZZA, altezza / self._BASE_ALTEZZA)
         voluta = max(self._SCALA_MIN, min(self._SCALA_MAX, voluta))
-        #Ridisegnare tutto costa: si fa solo se il cambiamento si vede davvero
+        #Ridisegnare tutto costa: si fa solo se il cambiamento si vede davvero. Le colonne
+        #però vanno ricentrate comunque: la finestra è cambiata anche se la scala no.
         if abs(voluta - self._scala) < 0.05:
+            self._centra_colonne()
             return
         self._scala = voluta
         customtkinter.set_widget_scaling(voluta)
@@ -840,6 +909,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         #pulsante resta spento finché il blocco non passa.
         self._blocca_pulsante_finestra()
         self._aggiorna_margini_righe()
+        self._centra_colonne()
 
     #Larghezza massima di una riga di risultato. Su uno schermo largo, senza questo
     #limite, il titolo del gioco e il suo "Link" finiscono ai due lati opposti e
