@@ -83,7 +83,8 @@ The application zip is **not** in the repository: it is published with each
 Using the app requires an account: the history of the deals you opened is tied to it, so you
 find it again from another computer. This is what happens to your data.
 
-**Sign-up.** Username, password, a `@gmail.com` address and date of birth. The server creates
+**Sign-up.** Username, password, a `@gmail.com` address that is not already linked to
+another account, and date of birth. The server creates
 the account as **unverified** and emails a 6-digit code (generated with Python's `secrets`
 module, meant for unpredictable values) that is valid for 15 minutes. An unverified account
 **cannot sign in**: trying anyway sends a fresh code instead of failing with a generic error.

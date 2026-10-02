@@ -50,7 +50,7 @@ Il progetto è organizzato in due parti separate: l'app desktop (`main.py`, `bac
 
 ## Registrazione
 
-Per creare un account servono: username, password, un indirizzo email che deve obbligatoriamente terminare in `@gmail.com`, e la data di nascita (giorno, mese, anno — con controlli in tempo reale che impediscono di inserire valori impossibili, es. giorno oltre 31 o mese oltre 12).
+Per creare un account servono: username, password, un indirizzo email che deve obbligatoriamente terminare in `@gmail.com` e che non sia già collegato a un altro account (il confronto ignora maiuscole e minuscole: il vincolo `users_email_unico` nel database è su `lower(email)`, perché per la posta `Mario@gmail.com` e `mario@gmail.com` sono la stessa casella), e la data di nascita (giorno, mese, anno — con controlli in tempo reale che impediscono di inserire valori impossibili, es. giorno oltre 31 o mese oltre 12).
 
 Al momento della registrazione:
 1. L'app desktop invia i dati al backend, che crea l'account nel database — ma segnato come **non verificato**
@@ -251,6 +251,7 @@ Dalla schermata iniziale puoi registrare un nuovo account (solo con indirizzo em
 | `site_login.py` | Accesso al sito in due passaggi (`/site-login`): password, poi codice via email |
 | `email_change.py` | Cambio dell'email confermato con due codici (`/me/email/confirm`) |
 | `email_change_schema.sql` | Tabella `email_changes`, da eseguire su Supabase prima di pubblicare |
+| `email_unique_schema.sql` | Vincolo `users_email_unico`: un indirizzo email, un account solo (confronto su `lower(email)`) |
 | `site_login_schema.sql` | Tabelle `login_challenges` e `site_sessions`, da eseguire su Supabase prima di pubblicare |
 | `tickets_schema.sql` | Tabelle dei ticket, da eseguire su Supabase |
 | `attachments.py` | Controllo degli allegati dei ticket e delle candidature (tipo, dimensione, nome) |

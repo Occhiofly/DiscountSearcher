@@ -19,6 +19,8 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
+import asyncpg
+
 from fastapi import APIRouter, Depends, HTTPException
 
 import auth
@@ -127,9 +129,23 @@ async def confirm_email_change(payload: EmailChangeConfirmRequest,
                 old_ok = auth.codes_match(auth.hash_token(payload.old_code), row["old_code_hash"])
                 new_ok = auth.codes_match(auth.hash_token(payload.new_code), row["new_code_hash"])
                 if old_ok and new_ok:
-                    await conn.execute("UPDATE users SET email = $1 WHERE id = $2", row["new_email"], current_user["id"])
+                    #Tra la richiesta e la conferma qualcun altro può essersi registrato con
+                    #quell'indirizzo: il vincolo users_email_unico lo impedisce, e qui si
+                    #trasforma in un messaggio chiaro invece di un errore del server. Il
+                    #blocco annidato è un savepoint: senza, l'errore annullerebbe tutta la
+                    #transazione e non si potrebbe più cancellare la richiesta in sospeso.
+                    preso = None
+                    try:
+                        async with conn.transaction():
+                            await conn.execute("UPDATE users SET email = $1 WHERE id = $2",
+                                               row["new_email"], current_user["id"])
+                    except asyncpg.UniqueViolationError:
+                        preso = True
                     await conn.execute("DELETE FROM email_changes WHERE user_id = $1", current_user["id"])
-                    changed = (row["old_email"], row["new_email"])
+                    if preso:
+                        error = HTTPException(status_code=409, detail=i18n.t("email_taken", lang))
+                    else:
+                        changed = (row["old_email"], row["new_email"])
                 else:
                     tries = row["attempts"] + 1
                     if tries >= _MAX_TRIES:

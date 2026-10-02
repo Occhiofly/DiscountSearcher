@@ -1,0 +1,23 @@
+-- ============================================================================
+-- Un indirizzo email, un account solo (api/main.py, api/email_change.py).
+--
+-- Da eseguire UNA VOLTA nel SQL Editor di Supabase, PRIMA di pubblicare il
+-- backend che se ne aspetta il comportamento. È sicuro rieseguirlo.
+--
+-- Prima di questa modifica lo stesso indirizzo poteva aprire account illimitati,
+-- anche l'indirizzo di un'altra persona, che si ritrovava i codici in casella.
+-- Il controllo nel codice del server non basta da solo: due registrazioni nello
+-- stesso istante lo supererebbero entrambe. Il vincolo nel database è l'unica
+-- garanzia vera.
+--
+-- Il confronto è su lower(email) perché per la posta "Mario@gmail.com" e
+-- "mario@gmail.com" sono la stessa casella: senza lower() il doppione passerebbe
+-- cambiando una maiuscola. L'indirizzo resta salvato come l'ha scritto l'utente.
+--
+-- ATTENZIONE: se nel database esistono già due account con lo stesso indirizzo,
+-- questo comando fallisce (ed è giusto: va deciso a mano quale tenere). Per
+-- trovarli:
+--   SELECT lower(email), count(*) FROM users GROUP BY 1 HAVING count(*) > 1;
+-- ============================================================================
+
+CREATE UNIQUE INDEX IF NOT EXISTS users_email_unico ON users (lower(email));

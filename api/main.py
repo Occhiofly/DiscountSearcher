@@ -226,6 +226,16 @@ async def register(payload: RegisterRequest, lang: str = Depends(request_lang)):
     via email. Stessa logica della register_user() del vecchio database.py
     dell'app desktop, spostata qui.
     """
+    pool = database.get_pool()
+
+    #Un indirizzo, un account. Questo controllo viene PRIMA del limite agli invii: chi
+    #riprova con un indirizzo già usato deve sentirsi dire che è già collegato a un
+    #account, non "hai già chiesto un codice da poco" (che è vero ma non spiega niente).
+    #Qui non si spedisce nulla, quindi non consuma il budget delle email.
+    async with pool.acquire() as conn:
+        if await conn.fetchval("SELECT 1 FROM users WHERE lower(email) = lower($1)", payload.email):
+            raise HTTPException(status_code=409, detail=i18n.t("email_taken", lang))
+
     #Limite agli invii verso lo stesso indirizzo: senza, la registrazione servirebbe a
     #tempestare di email chiunque abbia un indirizzo Gmail
     email_key = f"register:{payload.email.lower()}"
@@ -234,9 +244,11 @@ async def register(payload: RegisterRequest, lang: str = Depends(request_lang)):
     password_hash = auth.hash_password(payload.password)
     code = auth.generate_verification_code()
 
-    pool = database.get_pool()
     try:
         async with pool.acquire() as conn:
+            #La garanzia vera è il vincolo users_email_unico nel database
+            #(api/email_unique_schema.sql): due registrazioni nello stesso istante
+            #supererebbero entrambe il controllo qui sopra.
             await conn.execute(
                 """
                 INSERT INTO users (username, password_hash, email, birth_date, verification_code,
@@ -245,9 +257,10 @@ async def register(payload: RegisterRequest, lang: str = Depends(request_lang)):
                 """,
                 payload.username, password_hash, payload.email, payload.birth_date, code, lang,
             )
-    except asyncpg.UniqueViolationError:
-        #Il vincolo UNIQUE su username (definito nello schema) impedisce il doppione
-        raise HTTPException(status_code=409, detail=i18n.t("username_taken", lang))
+    except asyncpg.UniqueViolationError as e:
+        #Quale dei due vincoli è scattato? Il nome lo dice, e il messaggio cambia di conseguenza.
+        chiave = "email_taken" if e.constraint_name == "users_email_unico" else "username_taken"
+        raise HTTPException(status_code=409, detail=i18n.t(chiave, lang))
 
     #L'invio email usa smtplib, che è BLOCCANTE: eseguirlo direttamente qui fermerebbe
     #l'intero server per tutti gli altri, non solo per questa richiesta (stesso identico
@@ -466,6 +479,12 @@ async def update_profile(payload: UpdateProfileRequest, current_user: dict = Dep
         old_email = row["email"] #L'email a cui notificare il cambiamento è quella di PRIMA
         email_requested = "email" in changed_fields
         if email_requested:
+            #Inutile spedire due codici per un indirizzo che non si potrà usare: se è già
+            #di un altro account, il cambio fallirebbe alla conferma (vincolo users_email_unico).
+            if await conn.fetchval(
+                    "SELECT 1 FROM users WHERE lower(email) = lower($1) AND id <> $2",
+                    payload.email, current_user["id"]):
+                raise HTTPException(status_code=409, detail=i18n.t("email_taken", lang))
             #Il controllo dei limiti viene prima di qualsiasi modifica: se scatta, non cambia niente
             email_change.check_email_allowed(current_user["id"], lang)
             changed_fields.remove("email") #cambierà solo con i due codici
@@ -485,8 +504,9 @@ async def update_profile(payload: UpdateProfileRequest, current_user: dict = Dep
                     )
                 codes = (await email_change.start(conn, current_user["id"], old_email, payload.email, lang)
                          if email_requested else None)
-        except asyncpg.UniqueViolationError:
-            raise HTTPException(status_code=409, detail=i18n.t("username_taken", lang))
+        except asyncpg.UniqueViolationError as e:
+            chiave = "email_taken" if e.constraint_name == "users_email_unico" else "username_taken"
+            raise HTTPException(status_code=409, detail=i18n.t(chiave, lang))
 
         #Se la password è cambiata, disconnettiamo tutte le ALTRE sessioni (non quella
         #corrente, che ha appena dimostrato di essere legittima inserendo la password

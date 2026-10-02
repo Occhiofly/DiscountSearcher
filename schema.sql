@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
     CHECK ((language = ANY (ARRAY['it'::text, 'en'::text])))
 );
 CREATE INDEX IF NOT EXISTS idx_users_email ON users USING btree (email);
+CREATE UNIQUE INDEX IF NOT EXISTS users_email_unico ON users USING btree (lower(email));
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE IF NOT EXISTS email_changes (

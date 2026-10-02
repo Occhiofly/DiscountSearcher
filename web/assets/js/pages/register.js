@@ -26,7 +26,7 @@ const RESEND_SECONDS = 60; //come il limite del server fra due invii
 function errorMessage(err) {
   if (err instanceof NetworkError) return t('register.slowServer');
   if (err instanceof ApiError) {
-    //409 = nome utente già preso, 422 = dati rifiutati (il server spiega quale),
+    //409 = username o email già in uso, 422 = dati rifiutati (il server spiega quale),
     //429 = troppe email verso quell'indirizzo: in tutti e tre il testo del server è chiaro
     if ([400, 409, 422, 429].includes(err.status) && typeof err.detail === 'string') return err.message;
     if (err.status === 409) return t('register.taken');

@@ -640,10 +640,10 @@ class App(customtkinter.CTk): #Finestra pricipale
         try:
             api_client.register(username, password, email, birth_date) #Registrazione (account creato ma non ancora verificato, codice inviato dal server)
         except api_client.APIError as e:
-            if e.status_code == 409:
-                self.register_error.configure(text_color="red", text=t("username_taken")) #Errore
-            else:
-                self.register_error.configure(text_color="red", text=str(e))
+            #409 vuol dire "qualcosa è già in uso": l'username oppure l'email. Quale dei
+            #due lo dice il server, nella lingua dell'app, quindi si mostra il suo
+            #messaggio; t("username_taken") resta come riserva se non ne manda uno.
+            self.register_error.configure(text_color="red", text=str(e).strip() or t("username_taken"))
             return
         except api_client.ConnectionErrorAPI:
             self.register_error.configure(text_color="red", text=t("connection_error"))

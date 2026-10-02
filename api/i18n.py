@@ -102,6 +102,12 @@ MESSAGES = {
         "it": "Username già in uso",
         "en": "Username already taken",
     },
+    "email_taken": {
+        "it": "Questa email è già collegata a un account. Accedi con quello, oppure usa "
+              "\"Password dimenticata?\" se non ricordi le credenziali.",
+        "en": "This email is already linked to an account. Sign in with that one, or use "
+              "\"Forgot your password?\" if you do not remember the credentials.",
+    },
     "bad_credentials": {
         "it": "Username o password errati",
         "en": "Wrong username or password",
