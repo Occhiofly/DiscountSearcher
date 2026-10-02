@@ -1,26 +1,24 @@
 {
   "_commento": "Ultima versione pubblicata dell'app e cosa cambia. La legge il server (api/release.py) e la passa all'app dentro GET /status: chi ha una versione più vecchia vede l'avviso all'avvio. Va aggiornato insieme a version.py quando si pubblica una versione nuova; le novità si scrivono per chi usa l'app, non per chi sviluppa.",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "url": {
     "it": "https://discountsearcher.it/#download",
     "en": "https://discountsearcher.it/en/#download"
   },
   "notes": {
     "it": [
-      "L'app ti avvisa da sola quando esce una versione nuova, e ti dice cosa cambia.",
-      "Corretto: ingrandendo o riducendo la finestra dai pulsanti di Windows, ora l'app se ne accorge e i comandi tornano della misura giusta.",
-      "La finestra si ingrandisce e si ridimensiona: a schermo pieno crescono anche scritte e comandi, e si vedono più offerte per volta.",
-      "L'app riapre la finestra come l'avevi lasciata.",
-      "Cambiare l'email dell'account è più sicuro: servono due codici, uno al vecchio indirizzo e uno al nuovo.",
-      "Ora l'account si può creare anche dal sito, senza installare l'app."
+      "Corretto: nella schermata di accesso e registrazione le scritte finivano sopra le caselle. Ora ogni campo ha il suo spazio, a qualsiasi dimensione della finestra.",
+      "Le due colonne, Accedi e Registrati, partono dalla stessa riga e restano centrate anche con la finestra piccola.",
+      "Il lucchetto che mostra la password sta dentro la casella: i campi sono tutti della stessa larghezza.",
+      "Registrandoti, se l'email è già collegata a un altro account ora te lo dice chiaramente, invece di parlare dell'username.",
+      "Un indirizzo email può appartenere a un solo account: nessuno può più usare il tuo per registrarsi."
     ],
     "en": [
-      "The app tells you by itself when a new version is out, and what changed.",
-      "Fixed: when you maximise or restore the window from the Windows buttons, the app now notices and the controls go back to the right size.",
-      "The window can be resized and maximised: when it fills the screen, text and controls grow too, and you see more deals at once.",
-      "The app reopens the window the way you left it.",
-      "Changing your account email is safer: it now takes two codes, one to the old address and one to the new one.",
-      "You can now create an account from the website too, without installing the app."
+      "Fixed: on the sign-in and sign-up screen the labels ran into the fields. Every field now has its own room, at any window size.",
+      "The two columns, Sign in and Sign up, start on the same line and stay centred even in a small window.",
+      "The padlock that reveals the password sits inside the field, so every box is the same width.",
+      "When signing up, if the email is already linked to another account the app now says so, instead of talking about the username.",
+      "One email address belongs to one account only: nobody can use yours to sign up."
     ]
   }
 }

@@ -10,7 +10,7 @@ Lo usano:
 Alzandolo qui va aggiornato anche api/release.json, altrimenti l'app appena compilata
 si considera già aggiornata (giusto) ma nessuno viene avvisato della novità.
 """
-APP_VERSION = "1.0.9"
+APP_VERSION = "1.1.0"
 
 
 def as_tuple(value):
