@@ -12,6 +12,10 @@ data/
 #(vedi "Creare l'eseguibile"). Committarlo faceva crescere la storia di 23 MB a versione.
 web/downloads/*.zip
 
+#Copie del database: contengono dati di persone vere (account, email, ticket).
+#Si fanno con `python strumenti/db.py backup` e restano fuori dal repository.
+backup/
+
 #Appunti interni del team (vault Obsidian): non fanno parte del prodotto
 DiscountSearcher Obsidian/
 

@@ -70,6 +70,33 @@ executable and the User-Agent too), write the version and the notes in `api/rele
 rebuild, then publish the server and the website with the new zip. Anyone on a version older
 than 1.0.8 does not see the notice: the feature did not exist yet.
 
+## Database backups
+
+Supabase's free plan keeps **no copies at all**: no daily backups, no point-in-time recovery.
+If the project were deleted, or a query emptied a table, accounts, histories and tickets would
+be gone. The only copy is the one we make.
+
+**How**, from the project folder, with `api/.env` up to date:
+
+```bash
+python strumenti/db.py backup
+```
+
+It writes `backup/discountsearcher-<date>-<time>.zip`, holding `schema.sql` (the structure),
+one CSV per table and a `LEGGIMI.txt` file with the row counts and the restore steps. It needs
+only Python — no `pg_dump` to install.
+
+**How often**: once a week, and **always before** running SQL that changes or deletes data.
+Keep the zip off the working computer (external drive or private cloud). It holds real
+people's data: it does not belong in the repository — `backup/` is git-ignored — and must not
+be shared in the team chat.
+
+**To restore into an empty database**: run `schema.sql` in Supabase's SQL Editor, then load the
+CSVs in the order `LEGGIMI.txt` lists them (`users` first: the other tables reference it).
+
+**Whenever a table changes** on Supabase, run `python strumenti/db.py schema` again and commit
+`schema.sql`, or the repository describes a different database from the real one.
+
 ## Updates: maintenance mode
 
 While the team updates the project, the website and the app can be stopped together with an

@@ -72,7 +72,8 @@ The project is split in two halves that can run on different machines: the deskt
 | `api/` | The FastAPI server: accounts, sessions, history, support tickets, staff area |
 | `web/` | The website, Italian in the root and English in `web/en/` |
 | `press/` | Screenshots and material for posts, in both languages |
-| root | The desktop application and the build script |
+| `strumenti/` | Database tools: `db.py schema` regenerates `schema.sql`, `db.py backup` saves structure and data to a zip |
+| root | The desktop application, the build script and `schema.sql` |
 
 The application zip is **not** in the repository: it is published with each
 [release](https://github.com/Occhiofly/DiscountSearcher/releases).
@@ -132,9 +133,11 @@ Two halves, and the **server comes first**: the desktop app needs it running.
 
 Requirements: Python 3.10+ and a free [Supabase](https://supabase.com/) account.
 
-1. Create a Supabase project and run, in its SQL Editor, `schema.sql` (repository root) and
-   then `api/tickets_schema.sql`, `api/language_schema.sql`, `api/site_login_schema.sql` and
-   `api/email_change_schema.sql`.
+1. Create a Supabase project and run `schema.sql` (repository root) in its SQL Editor: it
+   holds **every** table, tickets and website sign-in included. The `api/*_schema.sql` files
+   are the additions made over time to a database that already existed; a new project does
+   not need them. `schema.sql` is generated from the live database by
+   `python strumenti/db.py schema` and is never written by hand.
 2. Copy the connection string from Supabase's "Connect" panel ("Session pooler" mode).
    If the password contains characters such as `@`, `/`, `?` or `#`, percent-encode them, or
    the address will not parse.

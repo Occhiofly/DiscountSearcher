@@ -188,7 +188,7 @@ Il progetto è in due parti: **prima il backend**, poi l'app desktop (che ha bis
 
 Requisiti: Python 3.10+, un account [Supabase](https://supabase.com/) (gratuito)
 
-1. Crea un progetto Supabase ed esegui `schema.sql` (nella cartella principale del repository) nel suo SQL Editor, per creare le tabelle. Esegui poi anche `api/tickets_schema.sql`, che aggiunge le tabelle dei ticket di assistenza, `api/language_schema.sql`, `api/site_login_schema.sql` (accesso al sito con codice via email) e `api/email_change_schema.sql` (cambio email con due codici)
+1. Crea un progetto Supabase ed esegui `schema.sql` (nella cartella principale) nel suo SQL Editor: contiene **tutte** le tabelle, compresi ticket, accesso dal sito e cambio email. I file `api/*_schema.sql` sono le aggiunte fatte via via su un database che esisteva già: su un progetto nuovo non servono
 2. Recupera la stringa di connessione al database dal pannello "Connect" di Supabase (modalità "Session pooler", consigliata per un server con connessioni persistenti)
 3. Dalla cartella `api/`, installa le dipendenze:
    ```bash
@@ -267,7 +267,16 @@ Dalla schermata iniziale puoi registrare un nuovo account (solo con indirizzo em
 | `language_schema.sql` | Colonna `users.language`, da eseguire su Supabase prima di pubblicare |
 | `.env` | Credenziali (database e Gmail) — **da creare in locale**, non incluso nel repository |
 
-`schema.sql`, nella cartella principale, contiene la struttura del database da eseguire su Supabase.
+### Database
+
+| File | Cosa contiene |
+|---|---|
+| `schema.sql` | La struttura completa del database, da eseguire su Supabase per crearlo da zero. **Non si scrive a mano**: lo genera `python strumenti/db.py schema` leggendo il database vero, e va committato quando cambia |
+| `strumenti/db.py` | Due comandi: `schema` riscrive `schema.sql`, `backup` salva struttura e dati in uno zip dentro `backup/` (cartella esclusa da git: contiene dati di persone vere) |
+| `api/*_schema.sql` | Le aggiunte fatte nel tempo a un database già esistente. Su un progetto nuovo basta `schema.sql` |
+
+Le copie di sicurezza sono una procedura del team: vedi
+[DOCUMENTAZIONE-TEAM.md](DOCUMENTAZIONE-TEAM.md#copie-di-sicurezza-del-database).
 
 ## Creare l'eseguibile (.exe)
 

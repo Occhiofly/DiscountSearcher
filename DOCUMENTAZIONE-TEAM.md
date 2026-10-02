@@ -42,6 +42,34 @@ l'eseguibile e lo User-Agent), scrivere versione e novità in `api/release.json`
 pubblicare il server e il sito con lo zip nuovo. Chi ha una versione precedente alla 1.0.8
 non vede l'avviso: quella funzione non c'era ancora.
 
+## Copie di sicurezza del database
+
+Il piano gratuito di Supabase **non conserva nessuna copia**: né giornaliera né point-in-time.
+Se il progetto venisse cancellato, o una query svuotasse una tabella, account, cronologie e
+ticket sarebbero persi. L'unica copia è quella che facciamo noi.
+
+**Come si fa**, dalla cartella del progetto, con `api/.env` aggiornato:
+
+```bash
+python strumenti/db.py backup
+```
+
+Scrive `backup/discountsearcher-<data>-<ora>.zip`, che contiene `schema.sql` (la struttura),
+un CSV per tabella e un file `LEGGIMI.txt` con il conteggio delle righe e le istruzioni per
+rimettere tutto. Serve solo Python, niente `pg_dump` da installare.
+
+**Ogni quanto**: una volta a settimana, e **sempre prima** di eseguire SQL che modifica o
+cancella dati. Lo zip va tenuto fuori dal computer di lavoro (disco esterno o cloud privato).
+Sono dati di persone vere: non vanno nella repository — `backup/` è escluso da git — né
+condivisi nel gruppo del team.
+
+**Per rimettere tutto in un database vuoto**: esegui `schema.sql` nel SQL Editor di Supabase,
+poi carica i CSV nell'ordine in cui `LEGGIMI.txt` li elenca (`users` per prima: le altre
+tabelle la referenziano).
+
+**Quando cambia una tabella** su Supabase, rilancia `python strumenti/db.py schema` e committa
+`schema.sql`: altrimenti il repository descrive un database diverso da quello vero.
+
 ## Aggiornamenti: la modalità manutenzione
 
 Quando il team aggiorna il progetto, sito e app si possono fermare insieme con un avviso
