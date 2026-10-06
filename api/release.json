@@ -1,9 +1,9 @@
 {
-  "_commento": "Ultima versione pubblicata dell'app e cosa cambia. La legge il server (api/release.py) e la passa all'app dentro GET /status: chi ha una versione più vecchia vede l'avviso all'avvio. Va aggiornato insieme a version.py quando si pubblica una versione nuova; le novità si scrivono per chi usa l'app, non per chi sviluppa.",
+  "_commento": "Ultima versione pubblicata dell'app e cosa cambia. La legge il server (api/release.py) e la passa all'app dentro GET /status: chi ha una versione più vecchia vede l'avviso all'avvio. Va aggiornato insieme a version.py quando si pubblica una versione nuova; le novità si scrivono per chi usa l'app, non per chi sviluppa. Il link porta alla pagina delle Release su GitHub finché il sito è fermo (crediti Netlify esauriti fino al 16 ottobre 2026): dal sito il download passava comunque da lì. Quando il sito torna, si può rimettere https://discountsearcher.it/#download.",
   "version": "1.1.0",
   "url": {
-    "it": "https://discountsearcher.it/#download",
-    "en": "https://discountsearcher.it/en/#download"
+    "it": "https://github.com/Occhiofly/DiscountSearcher/releases/latest",
+    "en": "https://github.com/Occhiofly/DiscountSearcher/releases/latest"
   },
   "notes": {
     "it": [
