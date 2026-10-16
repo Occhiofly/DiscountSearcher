@@ -1,0 +1,6 @@
+#!/bin/sh
+# Controlla che il commit non contenga credenziali (strumenti/controllo_segreti.py).
+# Si attiva una volta sola, in ogni copia del progetto:
+#     git config core.hooksPath .githooks
+# Per saltarlo in un caso singolo: git commit --no-verify
+python strumenti/controllo_segreti.py || exit 1

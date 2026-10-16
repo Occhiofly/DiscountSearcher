@@ -70,6 +70,41 @@ executable and the User-Agent too), write the version and the notes in `api/rele
 rebuild, then publish the server and the website with the new zip. Anyone on a version older
 than 1.0.8 does not see the notice: the feature did not exist yet.
 
+## Repository security
+
+The code is public, the credentials are not. What keeps the project safe is not hiding the
+code, but keeping secrets out of git and the accounts protected.
+
+**Already enabled on GitHub** (configured once, nothing to redo):
+
+| Protection | What it does |
+|---|---|
+| Secret scanning | GitHub looks for known keys in published files and warns |
+| Push protection | a push containing a recognised key is rejected |
+| Dependency alerts | you are told when a library in use has a known flaw |
+| Automated fixes | Dependabot opens the update pull request by itself |
+| `main` branch protection | no deletions, no history rewrites |
+
+**To enable once in every clone:**
+
+```bash
+git config core.hooksPath .githooks
+```
+
+From then on, before each commit, `strumenti/controllo_segreti.py` checks the files you are
+about to commit and stops the commit if it finds database addresses with a password,
+`GMAIL_APP_PASSWORD`, GitHub or Render tokens, Supabase keys, private keys or passwords
+written into the code. It recognises placeholders (`LA_TUA_PASSWORD`, `xxxx`, examples) and
+lets them through. To skip it once: `git commit --no-verify`.
+
+**If a secret ends up in a commit anyway**: change it on the service straight away (Supabase,
+Gmail, Render). Removing it from history is not enough — anyone may already have copied it,
+and on public repositories removed commits stay reachable.
+
+**What is left to you**: two-factor authentication on the GitHub account of everyone with
+write access. Today, whoever gets into one of those accounts can publish anything in your
+name, which is a far more concrete risk than readable code.
+
 ## Database backups
 
 Supabase's free plan keeps **no copies at all**: no daily backups, no point-in-time recovery.

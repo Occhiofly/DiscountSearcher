@@ -42,6 +42,41 @@ l'eseguibile e lo User-Agent), scrivere versione e novità in `api/release.json`
 pubblicare il server e il sito con lo zip nuovo. Chi ha una versione precedente alla 1.0.8
 non vede l'avviso: quella funzione non c'era ancora.
 
+## Sicurezza della repository
+
+Il codice è pubblico, le credenziali no. Quello che tiene al sicuro il progetto non è
+nascondere il codice, ma tenere i segreti fuori da git e gli account protetti.
+
+**Attivo su GitHub** (già configurato, non serve rifarlo):
+
+| Protezione | Cosa fa |
+|---|---|
+| Scansione dei segreti | GitHub cerca chiavi note nei file pubblicati e avvisa |
+| Blocco al push | un push che contiene una chiave riconosciuta viene rifiutato |
+| Avvisi sulle dipendenze | arriva una segnalazione quando una libreria usata ha una falla nota |
+| Correzioni automatiche | Dependabot apre da solo la richiesta di aggiornamento |
+| Protezione del ramo `main` | niente cancellazioni, niente riscritture della storia |
+
+**Da attivare una volta sola in ogni copia del progetto:**
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Da quel momento, prima di ogni commit, `strumenti/controllo_segreti.py` controlla i file
+che stai per committare e ferma il commit se trova indirizzi di database con la password,
+`GMAIL_APP_PASSWORD`, token di GitHub o Render, chiavi di Supabase, chiavi private o
+password scritte nel codice. Riconosce i segnaposto (`LA_TUA_PASSWORD`, `xxxx`, esempi) e
+li lascia passare. Per saltarlo in un caso singolo: `git commit --no-verify`.
+
+**Se un segreto finisce comunque in un commit**: cambialo subito sul servizio (Supabase,
+Gmail, Render). Toglierlo dalla storia non basta — chiunque può averlo già copiato, e sulle
+repository pubbliche i commit restano raggiungibili anche dopo essere stati rimossi.
+
+**Quello che resta a voi**: la verifica in due passaggi sugli account GitHub di tutti quelli
+che hanno il permesso di scrivere. Oggi chi entra in uno di quegli account può pubblicare
+qualsiasi cosa al posto vostro, ed è un rischio molto più concreto del codice leggibile.
+
 ## Copie di sicurezza del database
 
 Il piano gratuito di Supabase **non conserva nessuna copia**: né giornaliera né point-in-time.
