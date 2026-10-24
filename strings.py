@@ -144,6 +144,18 @@ TEXTS = {
     "login_footer": {"it": "Non hai un account? Registrati alla tua destra!",
                      "en": "No account yet? Sign up on the right!"},
     "forgot_link": {"it": "Password dimenticata?", "en": "Forgot your password?"},
+
+    #Modalità ospite: si usa l'app senza account (main.py, _entra_come_ospite)
+    "guest_button": {"it": "Entra senza account", "en": "Continue without an account"},
+    "guest_name": {"it": "Ospite", "en": "Guest"},
+    "guest_history_title": {"it": "La cronologia è di chi ha un account",
+                            "en": "History comes with an account"},
+    "guest_history_hint": {
+        "it": "Stai usando l'app senza account: le offerte che apri non vengono salvate.",
+        "en": "You are using the app without an account: the deals you open are not saved.",
+    },
+    "guest_create_account": {"it": "Crea un account", "en": "Create an account"},
+    "guest_exit": {"it": "Torna all'accesso", "en": "Back to sign-in"},
     "login_in_progress": {"it": "Accesso in corso...", "en": "Signing in..."},
     "auto_login": {"it": "Accesso automatico in corso...", "en": "Signing you in..."},
     "login_done": {"it": "Login effettuato!", "en": "Signed in!"},
@@ -267,9 +279,6 @@ TEXTS = {
     "wrong_current_password": {"it": "Password attuale errata!", "en": "Wrong current password!"},
     "cancel": {"it": "← Annulla", "en": "← Cancel"},
     "profile_updated": {"it": "Profilo aggiornato!", "en": "Profile updated!"},
-    # --- Dimensione della finestra -------------------------------------------
-    "maximize": {"it": "⛶ Ingrandisci finestra", "en": "⛶ Maximise window"},
-    "restore_window": {"it": "⛶ Riduci finestra", "en": "⛶ Restore window"},
     # --- Cambio email con due codici (il server non la cambia con la sola password) ---
     "email_change_title": {"it": "Conferma la nuova email", "en": "Confirm your new email"},
     "email_change_desc": {

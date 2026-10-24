@@ -30,3 +30,8 @@ env/
 #Cartella creata dalla Netlify CLI: contiene solo l'identificativo del sito,
 #serve in locale e non va nel repository.
 .netlify/
+
+#Bot Discord (cartella bot/): le dipendenze si riscaricano con "npm install" e il
+#codice compilato si rigenera con "npm run build". Nel repository sta solo il sorgente.
+bot/node_modules/
+bot/dist/

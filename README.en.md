@@ -23,6 +23,8 @@ no ads, no trackers, no data selling.
 - Opens a deal in the store **with one click**.
 - Keeps the games you opened in a **history tied to your account**, so you find them again
   from another computer.
+- Works **without an account** too: search and open deals straight away. The history is
+  the only thing an account adds.
 - Italian and English interface, chosen the first time you start the app.
 
 ## What it does not do
@@ -72,6 +74,7 @@ The project is split in two halves that can run on different machines: the deskt
 | `api/` | The FastAPI server: accounts, sessions, history, support tickets, staff area |
 | `web/` | The website, Italian in the root and English in `web/en/` |
 | `press/` | Screenshots and material for posts, in both languages |
+| `bot/` | The Discord bot (TypeScript, discord.js). It talks to the API only, never to the database |
 | `strumenti/` | Database tools: `db.py schema` regenerates `schema.sql`, `db.py backup` saves structure and data to a zip |
 | root | The desktop application, the build script and `schema.sql` |
 

@@ -108,6 +108,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         """
         super().__init__() #avvio finestra
         self.access_token = None #Token della sessione corrente, impostato al login o al ripristino da session.json
+        self.ospite = False #True con "Entra senza account": si cerca, ma non si salva niente (vedi _entra_come_ospite)
         self.title("Discount Searcher") #Titolo della finestra
         self.geometry("1000x600") #Grandezza iniziale della finestra
         #Finestra ingrandibile e a schermo intero: i pannelli sono posizionati in
@@ -118,7 +119,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         #Ingrandita, non "schermo intero" senza bordi: la barra del titolo resta, così
         #si riduce o si chiude come una finestra qualsiasi.
         self._maximized = False
-        self._sblocco_attesa = None #Pulsante Ingrandisci/Riduci spento mentre cambia la scala
+        self._sblocco_attesa = None #Attesa dopo un cambio di scala: le dimensioni non sono ancora attendibili
         self.bind("<F11>", lambda event: self._toggle_maximized())
         #Ingrandendo la finestra devono crescere anche scritte e comandi, altrimenti
         #restano minuscoli in mezzo al vuoto (vedi _adatta_alla_finestra).
@@ -267,7 +268,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         self.maintenance_frame = None
         #Chi non era ancora entrato riprova l'accesso automatico (se aveva una sessione
         #salvata); chi era già dentro ritrova la schermata com'era
-        if self.access_token is None and strings.chosen():
+        if self.access_token is None and not self.ospite and strings.chosen():
             self._start_session()
 
     def _start_session(self):
@@ -549,6 +550,14 @@ class App(customtkinter.CTk): #Finestra pricipale
         #sotto le schermate a tutta finestra (verifica email, password dimenticata).
         self.language_selector = self._create_language_selector(self.register_frame)
         self.language_selector.place(relx=0.96, rely=0.05, anchor="ne")
+        #Entra senza account: chi arriva la prima volta prova l'app subito, invece di
+        #doversi registrare per vedere cosa fa. L'account serve per la cronologia, e si
+        #crea dopo, da dentro l'app.
+        self.login_guest_button = customtkinter.CTkButton(
+            colonna, text=t("guest_button"), width=250, height=32, font=("Arial", 12),
+            fg_color="transparent", hover_color="#3a3a3a", text_color="#c9c9d1",
+            border_width=1, border_color="#5B5EA6", command=self._entra_come_ospite)
+        self.login_guest_button.pack(pady=(16, 0))
         self.login_error = customtkinter.CTkLabel(colonna, text="", text_color="red", font=("Arial", 12)) #Errore
         self.login_error.pack(pady=(12, 0))
 
@@ -582,7 +591,7 @@ class App(customtkinter.CTk): #Finestra pricipale
                     selettore.set("Italiano" if strings.current() == "it" else "English")
             return
         strings.set_language(target)
-        logged_in = self.access_token is not None
+        logged_in = self.access_token is not None or self.ospite
         for widget in self.winfo_children():
             widget.destroy()
         self._create_panels()
@@ -634,6 +643,22 @@ class App(customtkinter.CTk): #Finestra pricipale
                 self.login_error.configure(text_color="red", text=t("login_failed")) #Log Errore
         except api_client.ConnectionErrorAPI:
             self.login_error.configure(text_color="red", text=t("connection_error"))
+
+    def _entra_come_ospite(self):
+        """
+        "Entra senza account": si cerca e si aprono le offerte, ma non si salva niente.
+
+        Non viene creato nessun account e non parte nessuna chiamata al server: la
+        ricerca usa CheapShark e Steam, che sono pubbliche. L'unica cosa che manca
+        è la cronologia, che ha bisogno di un account per esistere.
+        """
+        self.ospite = True
+        self.access_token = None
+        self.current_user = {"username": t("guest_name")}
+        self.login_error.configure(text="")
+        self.login_frame.place_forget()
+        self.register_frame.place_forget()
+        self._create_main_menu()
 
     def _create_register(self):
         colonna = self._crea_colonna(self.register_frame)
@@ -873,9 +898,10 @@ class App(customtkinter.CTk): #Finestra pricipale
 
     def _sincronizza_stato_finestra(self):
         """
-        La finestra si ingrandisce e si riduce anche dai pulsanti della barra del titolo,
-        che l'app non intercetta: senza questo controllo continuerebbe a credersi
-        ingrandita, con il pulsante che dice il contrario di quello che fa.
+        La finestra si ingrandisce e si riduce dai pulsanti della barra del titolo, che
+        l'app non intercetta: senza questo controllo continuerebbe a credersi ingrandita,
+        con i comandi rimasti grandi in una finestra piccola e la preferenza salvata
+        sbagliata al prossimo avvio.
         """
         if self._sblocco_attesa is not None:
             return #Cambio di scala in corso: le dimensioni non sono ancora attendibili
@@ -883,7 +909,6 @@ class App(customtkinter.CTk): #Finestra pricipale
         if reale == self._maximized:
             return
         self._maximized = reale
-        self._update_window_button()
         strings.write_setting("maximized", reale)
 
     def _adatta_alla_finestra(self):
@@ -904,10 +929,9 @@ class App(customtkinter.CTk): #Finestra pricipale
         self._scala = voluta
         customtkinter.set_widget_scaling(voluta)
         #CustomTkinter, quando cambia scala, blocca minimo e massimo della finestra per un
-        #secondo (ctk_tk.py) e le impone una dimensione: premendo Ingrandisci/Riduci in
-        #quell'attimo la finestra non ubbidirebbe e il pulsante direbbe il falso. Quindi il
-        #pulsante resta spento finché il blocco non passa.
-        self._blocca_pulsante_finestra()
+        #secondo (ctk_tk.py) e le impone una dimensione: in quell'attimo quanto misura la
+        #finestra non vuol dire niente, e F11 non verrebbe ubbidito. Si aspetta.
+        self._attendi_fine_scala()
         self._aggiorna_margini_righe()
         self._centra_colonne()
 
@@ -947,21 +971,17 @@ class App(customtkinter.CTk): #Finestra pricipale
         larghezza_widget = larghezza / max(effettiva, 0.1)
         return max(10, int((larghezza_widget - self._MAX_LARGHEZZA_RIGA) / 2))
 
-    def _blocca_pulsante_finestra(self, millisecondi=1100):
-        """Spegne per un attimo il pulsante Ingrandisci/Riduci, mentre la scala cambia."""
-        pulsante = getattr(self, "window_button", None)
-        if pulsante is None or not pulsante.winfo_exists():
-            return
-        pulsante.configure(state="disabled")
+    def _attendi_fine_scala(self, millisecondi=1100):
+        """
+        Mentre CustomTkinter cambia scala la finestra ha dimensioni imposte da lui: per
+        quel secondo l'app non si fida di quello che misura e non cambia stato.
+        """
         if getattr(self, "_sblocco_attesa", None) is not None:
             self.after_cancel(self._sblocco_attesa)
-        self._sblocco_attesa = self.after(millisecondi, self._sblocca_pulsante_finestra)
+        self._sblocco_attesa = self.after(millisecondi, self._fine_attesa_scala)
 
-    def _sblocca_pulsante_finestra(self):
+    def _fine_attesa_scala(self):
         self._sblocco_attesa = None
-        pulsante = getattr(self, "window_button", None)
-        if pulsante is not None and pulsante.winfo_exists():
-            pulsante.configure(state="normal")
         #Durante il cambio di scala CustomTkinter impone una dimensione alla finestra e
         #può farla uscire dallo stato "ingrandita": se l'utente l'aveva chiesta grande,
         #si riprova adesso, una volta sola.
@@ -972,7 +992,7 @@ class App(customtkinter.CTk): #Finestra pricipale
 
     def _toggle_maximized(self):
         """
-        F11 o pulsante: ingrandisce la finestra a tutto lo schermo, o la rimpicciolisce.
+        F11: ingrandisce la finestra a tutto lo schermo, o la rimpicciolisce.
         Mentre la scala sta cambiando la finestra non ubbidirebbe, quindi si aspetta.
         """
         if getattr(self, "_sblocco_attesa", None) is not None:
@@ -986,14 +1006,12 @@ class App(customtkinter.CTk): #Finestra pricipale
         """Come il pulsante "Ingrandisci" di Windows: la barra del titolo resta al suo posto."""
         self.state("zoomed")
         self._maximized = True
-        self._update_window_button()
         strings.write_setting("maximized", True)
         self._ricalcola_scala_subito()
 
     def _restore_window(self):
         self.state("normal")
         self._maximized = False
-        self._update_window_button()
         strings.write_setting("maximized", False)
         self._ricalcola_scala_subito()
 
@@ -1012,24 +1030,15 @@ class App(customtkinter.CTk): #Finestra pricipale
         #altrimenti resterebbe la scala della finestra di prima.
         self._scala_attesa = self.after(200, self._adatta_alla_finestra)
 
-    def _update_window_button(self):
-        """Il pulsante dice cosa succede premendolo, non lo stato attuale."""
-        button = getattr(self, "window_button", None)
-        if button is not None and button.winfo_exists():
-            button.configure(text=t("restore_window") if self._maximized else t("maximize"))
 
     def _create_main_menu(self):
         self.sidebar_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="#2b2b2b") #Creazione pannello sideba
         self.sidebar_frame.place(relx=0.0, rely=0.0, relwidth=0.2, relheight=1.0) #Posizione sidebar a sinistra
         self.sidebar_main_frame = customtkinter.CTkFrame(self, corner_radius=0) #Creazione pannello principale
         self.sidebar_main_frame.place(relx=0.2, rely=0, relwidth=0.8, relheight=1.0) #Posizione pannello principale a destra
-        #Ingrandisci/riduci la finestra: il pulsante sta in alto a destra, sopra i risultati.
-        #Vale anche F11, e restano i pulsanti della barra del titolo di Windows.
-        self.window_button = customtkinter.CTkButton(self.sidebar_main_frame, text=t("maximize"), width=150, height=28,
-                                                     font=("Arial", 11), fg_color="#3a3a3a", hover_color="#4a4a4a",
-                                                     command=self._toggle_maximized)
-        self.window_button.place(relx=0.985, rely=0.02, anchor="ne")
-        self._update_window_button()
+        #Per ingrandire e ridurre la finestra bastano i pulsanti della barra del titolo di
+        #Windows (e F11): un pulsante nostro che facesse la stessa cosa toglieva spazio ai
+        #risultati e andava tenuto allineato allo stato vero della finestra.
         self.sidebar_title = customtkinter.CTkLabel(self.sidebar_frame, text=t("history"), text_color="white", font=("Arial", 18, "bold")) #Titolo Cronologia
         self.sidebar_title.place(relx=0.5, rely=0.05, anchor="center") #Posizione Titolo Cronologia
         self.history_frame = customtkinter.CTkScrollableFrame(self.sidebar_frame, fg_color="#1e1e1e") #Area scrollabile cronologia
@@ -1079,16 +1088,26 @@ class App(customtkinter.CTk): #Finestra pricipale
         self.profile_confirm_cancel_button.place(relx=0.5, rely=0.80, anchor="center")
         self.profile_confirm_frame.place_forget() #Nascondiamo il pannello di conferma all'avvio
 
-        self.sidebar_profile = customtkinter.CTkLabel(self.sidebar_frame, text=f"👤 {self.current_user['username']}", font=("Arial", 16, "bold"), cursor="hand2") #Sezione profilo con username (cliccabile)
+        #Da ospite non c'è nessun profilo da aprire: il nome resta, ma non è cliccabile
+        self.sidebar_profile = customtkinter.CTkLabel(self.sidebar_frame, text=f"👤 {self.current_user['username']}", font=("Arial", 16, "bold"), cursor="arrow" if self.ospite else "hand2") #Sezione profilo con username (cliccabile)
         self.sidebar_profile.place(relx=0.5, rely=0.90, anchor="center") #Posizionamento della sezione profilo
-        self.sidebar_profile.bind("<Button-1>", lambda event: self._open_profile_panel()) #Click apre il pannello profilo
+        if not self.ospite:
+            self.sidebar_profile.bind("<Button-1>", lambda event: self._open_profile_panel()) #Click apre il pannello profilo
         self.sidebar_language_selector = self._create_language_selector(self.sidebar_frame, width=150, font_size=11) #Cambio lingua
         self.sidebar_language_selector.place(relx=0.5, rely=0.845, anchor="center")
-        self.sidebar_logout = customtkinter.CTkLabel(self.sidebar_frame, text=t("logout"), font=("Arial", 11), text_color="gray", cursor="hand2") #Pulsante logout
+        self.sidebar_logout = customtkinter.CTkLabel(self.sidebar_frame, text=t("guest_exit") if self.ospite else t("logout"), font=("Arial", 11), text_color="gray", cursor="hand2") #Pulsante logout (da ospite: torna all'accesso)
         self.sidebar_logout.place(relx=0.5, rely=0.96, anchor="center") #Posizionamento logout
         self.sidebar_logout.bind("<Button-1>", lambda event: self._handle_logout()) #Click esegue logout
-        self.sidebar_entry =customtkinter.CTkEntry(self.sidebar_main_frame, width=400, height=30,placeholder_text=t("search_placeholder")) #Creazione Barra di ricerca
-        self.sidebar_entry.place(relx=0.5, rely=0.05, anchor="center") #Posizione barra di ricerca
+        #Pulsante e casella stanno in una riga sola, centrata: posizionati ciascuno per conto
+        #suo (relx 0.15 e 0.5) alla larghezza minima della finestra si sovrapponevano.
+        self.search_row = customtkinter.CTkFrame(self.sidebar_main_frame, fg_color="transparent") #Riga: Cerca + barra di ricerca
+        #A 0.05, con la finestra alla sua altezza minima, la riga arrivava a toccare i
+        #titoli dei filtri: un pelo piu' in alto e restano separati a ogni dimensione.
+        self.search_row.place(relx=0.5, rely=0.042, anchor="center") #Posizione della riga di ricerca
+        self.search_button = customtkinter.CTkButton(self.search_row, text=t("search_button"), width=130, height=30, fg_color="#4a4d8f", command=self._handle_search) #Pulsante Cerca
+        self.search_button.pack(side="left")
+        self.sidebar_entry = customtkinter.CTkEntry(self.search_row, width=400, height=30, placeholder_text=t("search_placeholder")) #Barra di ricerca
+        self.sidebar_entry.pack(side="left", padx=(12, 0))
         self.sidebar_menu = customtkinter.CTkOptionMenu(self.sidebar_main_frame, values=list(STORES.keys())) #Creazione menu a tendica per gli store
         self.sidebar_menu.place(relx=0.3, rely=0.15, anchor="center") #Posizione del menu a tendina
         #Il primo valore ("Tutti") è l'unico da tradurre: gli altri sono i generi come li chiama Steam
@@ -1102,8 +1121,6 @@ class App(customtkinter.CTk): #Finestra pricipale
         self.sidebar_title_genre_menu.place(relx=0.5, rely=0.10, anchor="center") #Posizionamento Dell Genere
         self.sidebar_title_discount_menu = customtkinter.CTkLabel(self.sidebar_main_frame, text=t("discount"), text_color="white", font=("Arial", 14)) #Titolo Sconto
         self.sidebar_title_discount_menu.place(relx=0.7, rely=0.10, anchor="center") #Posizionamento dello Sconto
-        self.search_button = customtkinter.CTkButton(self.sidebar_main_frame, text=t("search_button"), width=130, height=30, fg_color="#4a4d8f", command=self._handle_search) #Pulsante Cerca
-        self.search_button.place(relx=0.15, rely=0.05, anchor="center") #Posizionamento dell Pulsante Cerca
         self.results_frame = customtkinter.CTkScrollableFrame(self.sidebar_main_frame) #Area scrollabile
         #Ancorato in alto (anchor "n") subito sotto i filtri: ingrandendo la finestra o
         #passando a schermo intero l'elenco cresce insieme a lei, invece di lasciare
@@ -1112,7 +1129,7 @@ class App(customtkinter.CTk): #Finestra pricipale
         self.status_label = customtkinter.CTkLabel(self.sidebar_main_frame, text="", text_color="gray", font=("Arial", 12))
         self.status_label.place(relx=0.5, rely=0.32, anchor="center")
         self.credits_label = customtkinter.CTkLabel(self.sidebar_main_frame, text=t("credits"), font=("Arial", 10), text_color="Dark Slate Blue") #Footer crediti
-        self.credits_label.place(relx=0.5, rely=0.98, anchor="center")
+        self.credits_label.place(relx=0.5, rely=0.985, anchor="s") #Appoggiato al bordo: a rely 0.98 centrato sporgeva di un paio di pixel
         self._load_history() #Carichiamo la cronologia al primo avvio
 
     def _handle_search(self):
@@ -1211,6 +1228,8 @@ class App(customtkinter.CTk): #Finestra pricipale
     def _open_game(self, deal):
         url = f"https://www.cheapshark.com/redirect?dealID={deal['dealID']}" #Link al gioco
         webbrowser.open(url) #Apriamo il link nel browser predefinito
+        if self.ospite:
+            return #Senza account non c'è cronologia da aggiornare: nessuna chiamata al server
         try:
             api_client.add_history(self.access_token, deal['title'], deal['dealID']) #Salviamo il click nella cronologia
         except api_client.APIError as e:
@@ -1245,6 +1264,10 @@ class App(customtkinter.CTk): #Finestra pricipale
         for widget in self.history_frame.winfo_children():
             widget.destroy()
 
+        if self.ospite:
+            self._mostra_invito_account()
+            return
+
         try:
             result = api_client.get_history(self.access_token) #Carichiamo le ultime offerte visitate dall'utente
         except api_client.APIError as e:
@@ -1276,13 +1299,21 @@ class App(customtkinter.CTk): #Finestra pricipale
             #ancora riempiendo: si esce quando la ricerca è finita
             self.status_label.configure(text_color="orange", text=t("wait_for_search"))
             return
+        if self.ospite:
+            #Da ospite non c'è nessuna sessione: né sul server, né salvata sul computer.
+            #Cancellare il file toglierebbe l'accesso automatico a chi ha un account e sta
+            #solo dando un'occhiata da ospite.
+            call_server = False
         if call_server:
             try:
                 api_client.logout(self.access_token) #Revochiamo la sessione lato server
             except (api_client.APIError, api_client.ConnectionErrorAPI):
                 pass #Anche se la revoca lato server fallisce, disconnettiamo comunque in locale
+        era_ospite = self.ospite
+        self.ospite = False
         self.access_token = None
-        delete_saved_token() #Eliminiamo la sessione salvata se esiste
+        if not era_ospite:
+            delete_saved_token() #Eliminiamo la sessione salvata se esiste
         self.sidebar_frame.destroy() #Distruggiamo la sidebar
         self.sidebar_main_frame.destroy() #Distruggiamo il pannello principale
         self.profile_frame.destroy() #Distruggiamo il pannello profilo
@@ -1307,7 +1338,26 @@ class App(customtkinter.CTk): #Finestra pricipale
             self._create_login()
             self._create_register()
 
+    def _mostra_invito_account(self):
+        """
+        Al posto della cronologia, da ospite: perchè è vuota e come riempirla.
+        È' l'unico punto dell'app in cui si vede cosa si perde senza account, quindi
+        lo dice una volta sola e con calma, senza ripeterlo a ogni ricerca.
+        """
+        titolo = customtkinter.CTkLabel(self.history_frame, text=t("guest_history_title"),
+                                        font=("Arial", 13, "bold"), text_color="white", wraplength=150)
+        titolo.pack(pady=(18, 6), padx=6)
+        spiegazione = customtkinter.CTkLabel(self.history_frame, text=t("guest_history_hint"),
+                                             font=("Arial", 11), text_color="gray", wraplength=150, justify="left")
+        spiegazione.pack(padx=6)
+        crea = customtkinter.CTkButton(self.history_frame, text=t("guest_create_account"), height=32,
+                                       font=("Arial", 12), fg_color="#5B5EA6", hover_color="#4a4d8f",
+                                       command=self._handle_logout)
+        crea.pack(pady=(14, 6), padx=6, fill="x")
+
     def _open_profile_panel(self):
+        if self.ospite:
+            return #Da ospite non esiste nessun profilo
         self.sidebar_frame.place_forget() #Nascondiamo la sidebar
         self.sidebar_main_frame.place_forget() #Nascondiamo il pannello principale
         self.profile_confirm_frame.place_forget() #Ci assicuriamo che la schermata di conferma sia nascosta

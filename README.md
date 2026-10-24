@@ -48,6 +48,10 @@ Il progetto è organizzato in due parti separate: l'app desktop (`main.py`, `bac
 
 # Registrazione e login
 
+## Senza account
+
+Dalla schermata di accesso, **Entra senza account**: si cerca e si aprono le offerte senza registrarsi. Non viene creato nessun account e non parte nessuna chiamata al server, perché le offerte arrivano da CheapShark e i generi da Steam, che sono pubbliche. L'unica cosa che manca è la cronologia, che ha bisogno di un account per esistere: al suo posto, nella colonna di sinistra, c'è l'invito a crearne uno. Il pulsante "Torna all'accesso" riporta alla schermata iniziale, e chi aveva una sessione salvata la ritrova intatta.
+
 ## Registrazione
 
 Per creare un account servono: username, password, un indirizzo email che deve obbligatoriamente terminare in `@gmail.com` e che non sia già collegato a un altro account (il confronto ignora maiuscole e minuscole: il vincolo `users_email_unico` nel database è su `lower(email)`, perché per la posta `Mario@gmail.com` e `mario@gmail.com` sono la stessa casella), e la data di nascita (giorno, mese, anno — con controlli in tempo reale che impediscono di inserire valori impossibili, es. giorno oltre 31 o mese oltre 12).
@@ -104,8 +108,10 @@ characters long"), che l'app e il sito mostrano così com'è.
 ## La finestra dell'app
 
 La finestra parte a 1000x600 ma si può **ridimensionare e ingrandire a tutto schermo**: con
-il pulsante in alto a destra del menu principale, con **F11**, o con i normali pulsanti della
-barra del titolo di Windows. Si torna alla finestra piccola allo stesso modo. È una finestra
+i normali pulsanti della barra del titolo di Windows o con **F11**. Si torna alla finestra
+piccola allo stesso modo. Un pulsante Ingrandisci/Riduci dentro l'app c'era, ed è stato
+tolto: faceva quello che fa già la barra del titolo, toglieva spazio ai risultati e andava
+tenuto allineato allo stato vero della finestra. È una finestra
 ingrandita, non uno "schermo intero" senza bordi: la barra del titolo resta sempre
 disponibile. La scelta è salvata in `%APPDATA%\DiscountSearcher\settings.json`
 (`"maximized"`), così l'app riparte come la si era lasciata.
@@ -119,25 +125,25 @@ Non basta però spostare i pannelli: ingrandendo, **scritte e comandi crescono c
 finestra** (`_adatta_alla_finestra`), altrimenti resterebbero minuscoli in mezzo al vuoto. La
 scala dei widget di CustomTkinter segue il lato più stretto rispetto ai 1000x600 di
 partenza, fra 1.0 e 1.6; il calcolo aspetta 250 ms dopo l'ultimo ridimensionamento, per non
-ridisegnare tutto a ogni pixel trascinato, e viene rifatto subito quando si preme
-Ingrandisci o Riduci. Le righe dell'elenco restano in una colonna centrata di circa 1000
+ridisegnare tutto a ogni pixel trascinato, e viene rifatto subito quando la finestra
+viene ingrandita o ridotta. Le righe dell'elenco restano in una colonna centrata di circa 1000
 punti (`_MAX_LARGHEZZA_RIGA`): su uno schermo largo, senza quel limite, il titolo del gioco e
 il suo "Link" finirebbero ai due lati opposti.
 
 La finestra si ingrandisce e si riduce anche dai pulsanti della barra del titolo di
 Windows, che l'app non riceve come comando: a ogni ridimensionamento l'app controlla quindi
-com'è davvero la finestra (`_sincronizza_stato_finestra`) e allinea il pulsante, la scala e
-la preferenza salvata. Senza quel controllo continuava a credersi ingrandita, con il
-pulsante che diceva il contrario di quello che faceva e i comandi rimasti grandi in una
-finestra piccola.
+com'è davvero la finestra (`_sincronizza_stato_finestra`) e allinea la scala e la
+preferenza salvata. Senza quel controllo continuava a credersi ingrandita, con i comandi
+rimasti grandi in una finestra piccola e la preferenza sbagliata al prossimo avvio.
 
 Due trappole di CustomTkinter, trovate con la revisione del codice: `padx` passato a
 `pack()` viene moltiplicato per la scala **effettiva** (la nostra per l'ingrandimento di
 Windows, `ScalingTracker.get_widget_scaling`), mentre `pack_configure()` non la applica
 affatto — quindi i margini si calcolano in unità di widget e si riapplicano sempre con
 `pack()`. Inoltre, cambiando scala, CustomTkinter blocca minimo e massimo della finestra per
-un secondo: in quell'attimo il pulsante Ingrandisci/Riduci resta spento, altrimenti la
-finestra non ubbidirebbe e il pulsante direbbe il falso.
+un secondo e le impone una dimensione: in quell'attimo l'app non si fida di quello che
+misura e non cambia stato (`_attendi_fine_scala`), altrimenti F11 non verrebbe ubbidito e
+la preferenza salvata finirebbe sbagliata.
 
 ## Italiano e inglese
 
@@ -278,6 +284,19 @@ Dalla schermata iniziale puoi registrare un nuovo account (solo con indirizzo em
 
 Le copie di sicurezza sono una procedura del team: vedi
 [DOCUMENTAZIONE-TEAM.md](DOCUMENTAZIONE-TEAM.md#copie-di-sicurezza-del-database).
+
+### Bot Discord (cartella `bot/`)
+
+Bot del server Discord, in TypeScript con discord.js. Parla solo con l'API, mai
+direttamente con il database: il token di un bot sta su un server pubblico, le
+credenziali del database no.
+
+| File | Descrizione |
+|---|---|
+| `bot/README.md` | Come avviarlo, come aggiungere un comando, dove farlo girare |
+| `bot/src/index.ts` | Avvio del bot e smistamento dei comandi |
+| `bot/src/comandi/` | Un file per comando: oggi `/download`, che legge la versione pubblicata da `GET /status` |
+| `bot/.env` | Token e identificativi — **da creare in locale**, non incluso nel repository |
 
 ## Creare l'eseguibile (.exe)
 
